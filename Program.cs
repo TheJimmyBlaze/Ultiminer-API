@@ -1,5 +1,4 @@
 using Config;
-using Controllers.Authentication;
 using Services.Token;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,13 +13,11 @@ builder.Services.AddSingleton(settings);
 builder.Services.AddTransient<JwtTokenFactory>();
 
 //Controllers
-builder.Services.AddTransient<AuthController>();
+builder.Services.AddControllers();
 
 //Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-//Jwt
 
 var app = builder.Build();
 
@@ -33,8 +30,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//Controllers
-app.MapPost("/auth", async (string authCode) => await app.Services.GetService<AuthController>()!.PostAuthCode(authCode))
-    .WithName("PostAuthCode");
+app.MapControllers();
 
 app.Run();

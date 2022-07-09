@@ -13,14 +13,14 @@ namespace Services.Token {
             this.settings = settings.CryptographySettings;
         }
 
-        public string CreateToken() {
+        public string CreateToken(string id) {
 
             JwtSecurityTokenHandler handler = new ();
 
             SecurityTokenDescriptor tokenDescriptor = new (){
 
                 Subject = new ClaimsIdentity(new Claim[]{
-                    new Claim(ClaimTypes.NameIdentifier, "Test Claim")
+                    new Claim(ClaimTypes.NameIdentifier, id)
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(settings.TokenMinsToLive),
                 SigningCredentials = new SigningCredentials(
