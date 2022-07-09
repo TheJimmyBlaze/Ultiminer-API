@@ -6,17 +6,11 @@ namespace Config {
 
         public const string CRYPTO_SECTION = "Cryptography";
 
-        //Defaults
-        public const string DEFAULT_TOKEN_SECRET = "InsecureDefaultSecret";
-        public const int DEFAULT_MINS_TO_LIVE = 1080;
+        public string TokenSecret {get; set;}
+        public int TokenMinsToLive { get; set; }
 
-        //Properties
-        public string TokenSecretString {get; set;} = DEFAULT_TOKEN_SECRET;
-        public int TokenMinsToLive { get; set; } = DEFAULT_MINS_TO_LIVE;
-
-        //Converters
         public byte[] GetSecret() {
-            return Encoding.ASCII.GetBytes(TokenSecretString);
+            return Encoding.ASCII.GetBytes(TokenSecret);
         }
     }
 }

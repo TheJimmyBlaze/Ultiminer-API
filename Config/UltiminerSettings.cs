@@ -5,6 +5,8 @@ namespace Config {
 
         public const string ULTIMINER_SECTION = "Ultiminer";
 
-        public CryptographySettings CryptographySettings {get; set;} = new CryptographySettings();
+        public CryptographySettings Cryptography {get; set;}
+
+        public DiscordSettings Discord {get; set;}
     }
 }

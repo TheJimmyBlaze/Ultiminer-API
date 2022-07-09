@@ -5,12 +5,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Services.Token {
 
-    public class JwtTokenFactory {
+    public class UltiminerToken {
 
         private readonly CryptographySettings settings;
 
-        public JwtTokenFactory(UltiminerSettings settings) {
-            this.settings = settings.CryptographySettings;
+        public UltiminerToken(UltiminerSettings settings) {
+            this.settings = settings.Cryptography;
         }
 
         public string CreateToken(string id) {

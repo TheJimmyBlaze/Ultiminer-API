@@ -6,11 +6,16 @@ var builder = WebApplication.CreateBuilder(args);
 //Settings
 UltiminerSettings settings = new ();
 builder.Configuration.GetSection(UltiminerSettings.ULTIMINER_SECTION).Bind(settings);
-
 builder.Services.AddSingleton(settings);
 
+//Setup
+builder.Services.AddHttpClient();
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
 //Services
-builder.Services.AddTransient<JwtTokenFactory>();
+builder.Services.AddTransient<UltiminerToken>();
+builder.Services.AddTransient<DiscordToken>();
 
 //Controllers
 builder.Services.AddControllers();

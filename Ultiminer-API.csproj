@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Ultiminer_API</RootNamespace>
+    <NoWarn>8618</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
