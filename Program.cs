@@ -1,5 +1,5 @@
 using Config;
-using Services.Token;
+using Services.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +14,8 @@ builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 
 //Services
-builder.Services.AddTransient<UltiminerToken>();
-builder.Services.AddTransient<DiscordToken>();
+builder.Services.AddTransient<UltiminerAuthentication>();
+builder.Services.AddTransient<DiscordAuthentication>();
 
 //Controllers
 builder.Services.AddControllers();

@@ -2,25 +2,30 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Config;
 using Microsoft.IdentityModel.Tokens;
+using Models;
 
-namespace Services.Token {
+namespace Services.Authentication {
 
-    public class UltiminerToken {
+    public class UltiminerAuthentication {
 
         private readonly CryptographySettings settings;
 
-        public UltiminerToken(UltiminerSettings settings) {
+        public UltiminerAuthentication(UltiminerSettings settings) {
             this.settings = settings.Cryptography;
         }
 
-        public string CreateToken(string id) {
+        public string CreateToken(DiscordIdentity identity) {
 
             JwtSecurityTokenHandler handler = new ();
 
+            //Create a new token containing useful identifying information
             SecurityTokenDescriptor tokenDescriptor = new (){
 
                 Subject = new ClaimsIdentity(new Claim[]{
-                    new Claim(ClaimTypes.NameIdentifier, id)
+                    new Claim(UltiminerClaims.DiscordId, identity.Id),
+                    new Claim(UltiminerClaims.DiscordUsername, identity.Username),
+                    new Claim(UltiminerClaims.DiscordDiscriminator, identity.Discriminator),
+                    new Claim(UltiminerClaims.DiscordAvatarHash, identity.AvatarHash)
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(settings.TokenMinsToLive),
                 SigningCredentials = new SigningCredentials(
@@ -28,7 +33,6 @@ namespace Services.Token {
                     SecurityAlgorithms.HmacSha256
                 )
             };
-
             SecurityToken token = handler.CreateToken(tokenDescriptor);
             string tokenString = handler.WriteToken(token);
 
