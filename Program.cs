@@ -9,6 +9,12 @@ builder.Configuration.GetSection(UltiminerSettings.ULTIMINER_SECTION).Bind(setti
 builder.Services.AddSingleton(settings);
 
 //Setup
+builder.Services.AddCors(options => {
+    options.AddDefaultPolicy(policy => {
+        policy.WithOrigins("*").AllowAnyHeader();
+    });
+});
+
 builder.Services.AddHttpClient();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
@@ -33,8 +39,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseHttpsRedirection();
-
 app.MapControllers();
 
 app.Run();

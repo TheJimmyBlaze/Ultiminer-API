@@ -43,14 +43,14 @@ namespace Services.Authentication {
 
             //Handle response failure
             if (!response.IsSuccessStatusCode) {
-                throw new BadHttpRequestException($"Discord token exchange was not successful: {response.ReasonPhrase}", 502);
+                throw new BadHttpRequestException($"Discord token exchange was not successful: {response.ReasonPhrase}", StatusCodes.Status502BadGateway);
             }
 
             //Deserialize response into token
             string responseContent = await response.Content.ReadAsStringAsync();
             DiscordToken? token = JsonSerializer.Deserialize<DiscordToken>(responseContent);
             if (token == null) {
-                throw new BadHttpRequestException("Failed to deserialize JSON response received from discord token exchange", 502);
+                throw new BadHttpRequestException("Failed to deserialize JSON response received from discord token exchange", StatusCodes.Status502BadGateway);
             }
 
             return token;
@@ -70,14 +70,14 @@ namespace Services.Authentication {
 
             //Handle response failure
             if (!response.IsSuccessStatusCode) {
-                throw new BadHttpRequestException($"Discord user identity request was not successful: {response.ReasonPhrase}", 502);
+                throw new BadHttpRequestException($"Discord user identity request was not successful: {response.ReasonPhrase}", StatusCodes.Status502BadGateway);
             }
 
             //Deserialize response into identity
             string responseContent = await response.Content.ReadAsStringAsync();
             DiscordIdentity? identity = JsonSerializer.Deserialize<DiscordIdentity>(responseContent);
             if (identity == null) {
-                throw new BadHttpRequestException("Failed to deserialize JSON response received from discord user identity request", 502);
+                throw new BadHttpRequestException("Failed to deserialize JSON response received from discord user identity request", StatusCodes.Status502BadGateway);
             }
 
             return identity;

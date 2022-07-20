@@ -14,7 +14,7 @@ namespace Services.Authentication {
             this.settings = settings.Cryptography;
         }
 
-        public string CreateToken(DiscordIdentity identity) {
+        public UltiminerToken CreateToken(DiscordIdentity identity) {
 
             JwtSecurityTokenHandler handler = new ();
 
@@ -36,7 +36,10 @@ namespace Services.Authentication {
             SecurityToken token = handler.CreateToken(tokenDescriptor);
             string tokenString = handler.WriteToken(token);
 
-            return tokenString;
+            //Create the Ultiminer Token DTO
+            UltiminerToken dto = new () { AccessToken = tokenString };
+
+            return dto;
         }
     }
 }
