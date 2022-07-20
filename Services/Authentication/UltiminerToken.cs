@@ -10,6 +10,8 @@ namespace Services.Authentication {
 
         private readonly CryptographySettings settings;
 
+        private const string TOKEN_TYPE = "Bearer";
+
         public UltiminerAuthentication(UltiminerSettings settings) {
             this.settings = settings.Cryptography;
         }
@@ -17,6 +19,9 @@ namespace Services.Authentication {
         public UltiminerToken CreateToken(DiscordIdentity identity) {
 
             JwtSecurityTokenHandler handler = new ();
+
+            //Save this, since we need to include it in the token DTO
+            int secondsToLive = settings.SecondsToLive;
 
             //Create a new token containing useful identifying information
             SecurityTokenDescriptor tokenDescriptor = new (){
@@ -27,7 +32,7 @@ namespace Services.Authentication {
                     new Claim(UltiminerClaims.DiscordDiscriminator, identity.Discriminator),
                     new Claim(UltiminerClaims.DiscordAvatarHash, identity.AvatarHash)
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(settings.TokenMinsToLive),
+                Expires = DateTime.UtcNow.AddSeconds(secondsToLive),
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(settings.GetSecret()),
                     SecurityAlgorithms.HmacSha256
@@ -37,7 +42,11 @@ namespace Services.Authentication {
             string tokenString = handler.WriteToken(token);
 
             //Create the Ultiminer Token DTO
-            UltiminerToken dto = new () { AccessToken = tokenString };
+            UltiminerToken dto = new () { 
+                AccessToken = tokenString,
+                ExpiresIn = secondsToLive,
+                TokenType = TOKEN_TYPE
+            };
 
             return dto;
         }

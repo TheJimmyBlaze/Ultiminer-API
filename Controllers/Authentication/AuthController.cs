@@ -18,16 +18,22 @@ namespace Controllers.Authentication {
         [HttpPost("DiscordAuthCode")]
         public async Task<IResult> PostDiscordAuthCode([FromBody] DiscordAuthCode code) {
 
-            //Get discord bearer token
-            DiscordToken discordToken = await discordAuthentication.ExchangeAuthCode(code.AuthCode);
+            try {
 
-            //Resolve discord user identity from bearer
-            DiscordIdentity discordIdentity = await discordAuthentication.GetIdentityFromToken(discordToken);
+                //Get discord bearer token
+                DiscordToken discordToken = await discordAuthentication.ExchangeAuthCode(code.AuthCode);
 
-            //Create Ultiminer token using discord identity data
-            UltiminerToken ultiminerToken = await Task.Run(() => ultiminerAuthentication.CreateToken(discordIdentity));
+                //Resolve discord user identity from bearer
+                DiscordIdentity discordIdentity = await discordAuthentication.GetIdentityFromToken(discordToken);
 
-            return Results.Ok(ultiminerToken);
+                //Create Ultiminer token using discord identity data
+                UltiminerToken ultiminerToken = await Task.Run(() => ultiminerAuthentication.CreateToken(discordIdentity));
+
+                return Results.Ok(ultiminerToken);
+
+            } catch (Exception ex){
+                return Results.BadRequest(ex.Message);
+            }
         }
     }
 }

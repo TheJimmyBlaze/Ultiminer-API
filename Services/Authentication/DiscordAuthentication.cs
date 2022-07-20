@@ -7,7 +7,6 @@ namespace Services.Authentication {
 
     public class DiscordAuthentication {
 
-        private readonly ILogger logger;
         private readonly DiscordSettings settings;
         private readonly IHttpClientFactory clientFactory;
 
@@ -16,8 +15,7 @@ namespace Services.Authentication {
         private const string OAUTH_ROUTE = "/oauth2/token";
         private const string ME_ROUTE = "/users/@me";
 
-        public DiscordAuthentication(ILogger<DiscordAuthentication> logger, UltiminerSettings settings, IHttpClientFactory clientFactory) {
-            this.logger = logger;
+        public DiscordAuthentication(UltiminerSettings settings, IHttpClientFactory clientFactory) {
             this.settings = settings.Discord;
             this.clientFactory = clientFactory;
         }
@@ -43,14 +41,14 @@ namespace Services.Authentication {
 
             //Handle response failure
             if (!response.IsSuccessStatusCode) {
-                throw new BadHttpRequestException($"Discord token exchange was not successful: {response.ReasonPhrase}", StatusCodes.Status502BadGateway);
+                throw new Exception($"Discord token exchange was not successful: {response.ReasonPhrase}");
             }
 
             //Deserialize response into token
             string responseContent = await response.Content.ReadAsStringAsync();
             DiscordToken? token = JsonSerializer.Deserialize<DiscordToken>(responseContent);
             if (token == null) {
-                throw new BadHttpRequestException("Failed to deserialize JSON response received from discord token exchange", StatusCodes.Status502BadGateway);
+                throw new Exception("Failed to deserialize JSON response received from discord token exchange");
             }
 
             return token;
@@ -70,14 +68,14 @@ namespace Services.Authentication {
 
             //Handle response failure
             if (!response.IsSuccessStatusCode) {
-                throw new BadHttpRequestException($"Discord user identity request was not successful: {response.ReasonPhrase}", StatusCodes.Status502BadGateway);
+                throw new Exception($"Discord user identity request was not successful: {response.ReasonPhrase}");
             }
 
             //Deserialize response into identity
             string responseContent = await response.Content.ReadAsStringAsync();
             DiscordIdentity? identity = JsonSerializer.Deserialize<DiscordIdentity>(responseContent);
             if (identity == null) {
-                throw new BadHttpRequestException("Failed to deserialize JSON response received from discord user identity request", StatusCodes.Status502BadGateway);
+                throw new Exception("Failed to deserialize JSON response received from discord user identity request");
             }
 
             return identity;

@@ -7,7 +7,7 @@ namespace Config {
         public const string CRYPTO_SECTION = "Cryptography";
 
         public string TokenSecret {get; set;}
-        public int TokenMinsToLive { get; set; }
+        public int SecondsToLive { get; set; }
 
         public byte[] GetSecret() {
             return Encoding.ASCII.GetBytes(TokenSecret);
