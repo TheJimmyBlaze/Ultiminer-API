@@ -22,8 +22,8 @@ namespace Services.Authentication {
             SecurityTokenDescriptor tokenDescriptor = new (){
 
                 Subject = new ClaimsIdentity(new Claim[]{
-                    new Claim(UltiminerClaims.DiscordId, identity.Id),
-                    new Claim(UltiminerClaims.DiscordUsername, identity.Username),
+                    new Claim(ClaimTypes.NameIdentifier, identity.Id),
+                    new Claim(ClaimTypes.Name, identity.Username),
                     new Claim(UltiminerClaims.DiscordDiscriminator, identity.Discriminator),
                     new Claim(UltiminerClaims.DiscordAvatarHash, identity.AvatarHash)
                 }),
