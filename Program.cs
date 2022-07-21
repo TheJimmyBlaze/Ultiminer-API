@@ -15,7 +15,7 @@ builder.Services.AddSingleton(settings);
 //Setup
 builder.Services.AddCors(options => {
     options.AddDefaultPolicy(policy => {
-        policy.WithOrigins("*").AllowAnyHeader();
+        policy.AllowAnyOrigin().AllowAnyHeader();
     });
 });
 
@@ -40,7 +40,7 @@ builder.Services.AddSwaggerGen(config => {
             Scheme = "Bearer",
             BearerFormat = "JWT",
             In = ParameterLocation.Header,
-            Description = "JSON Web Token based security",
+            Description = "Add 'Bearer' before pasting the token or it wont work >:(",
         });
 
     config.AddSecurityRequirement(new OpenApiSecurityRequirement(){
