@@ -1,3 +1,7 @@
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Config;
 using Services.Authentication;
 
@@ -28,7 +32,48 @@ builder.Services.AddControllers();
 
 //Swagger
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(config => {
+    
+    config.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme() {
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = "Bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+            Description = "JSON Web Token based security",
+        });
+
+    config.AddSecurityRequirement(new OpenApiSecurityRequirement(){
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                new string[] {}
+            }
+        });
+});
+
+//Authentication
+builder.Services.AddAuthentication(auth => {
+        auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+     .AddJwtBearer(bearer => {
+        bearer.RequireHttpsMetadata = false;
+        bearer.SaveToken = true;
+        bearer.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(settings.Cryptography.GetSecret()),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+     });
 
 var app = builder.Build();
 
@@ -39,8 +84,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.UseCors();
 app.UseHttpsRedirection();
-app.MapControllers();
+app.MapControllers()
+    .RequireAuthorization();
 
 app.Run();

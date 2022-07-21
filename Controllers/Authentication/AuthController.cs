@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Principal;
+using System.Security.Claims;
 using Services.Authentication;
 using Models;
 
@@ -16,6 +19,7 @@ namespace Controllers.Authentication {
         }
 
         [HttpPost("DiscordAuthCode")]
+        [AllowAnonymous]
         public async Task<IResult> PostDiscordAuthCode([FromBody] DiscordAuthCode code) {
 
             try {
@@ -31,8 +35,32 @@ namespace Controllers.Authentication {
 
                 return Results.Ok(ultiminerToken);
 
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 return Results.BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("@Me")]
+        public IResult GetMe() {
+
+            try {
+
+                IIdentity? identity = HttpContext.User.Identity as ClaimsIdentity;
+                if (identity is ClaimsIdentity token) {
+
+                    string id = token.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+                    string name = token.FindFirst(ClaimTypes.Name)!.Value;
+
+                    UltiminerIdentity response = new () {
+                        Id = id,
+                        Username = name
+                    };
+                    return Results.Ok(response);
+                }
+                throw new UnauthorizedAccessException();
+
+            } catch (Exception) {
+                return Results.Unauthorized();
             }
         }
     }
