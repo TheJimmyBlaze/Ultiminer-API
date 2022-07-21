@@ -59,14 +59,9 @@ builder.Services.AddSwaggerGen(config => {
 });
 
 //Authentication
-builder.Services.AddAuthentication(auth => {
-        auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-     .AddJwtBearer(bearer => {
-        bearer.RequireHttpsMetadata = false;
-        bearer.SaveToken = true;
-        bearer.TokenValidationParameters = new TokenValidationParameters
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, config => {
+        config.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(settings.Cryptography.GetSecret()),
