@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.EntityFrameworkCore;
 using Config;
 using Services.Authentication;
+using Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,10 @@ builder.Services.AddCors(options => {
 builder.Services.AddHttpClient();
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+
+//Database
+string dbConnectionString = builder.Configuration.GetConnectionString("UltiminerDB");
+builder.Services.AddDbContext<UltiminerContext>(config => config.UseSqlServer(dbConnectionString));
 
 //Services
 builder.Services.AddTransient<UltiminerAuthentication>();
@@ -53,7 +59,7 @@ builder.Services.AddSwaggerGen(config => {
                         Id = "Bearer"
                     }
                 },
-                new string[] {}
+                Array.Empty<string>()
             }
         });
 });
