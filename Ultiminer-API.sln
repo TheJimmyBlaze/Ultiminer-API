@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultiminer-API", "API\Ultiminer-API.csproj", "{734C60D2-7FF5-481C-A184-D5E4DBAF6A44}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ultiminer-Database", "Database\Ultiminer-Database.csproj", "{481E44BC-63C9-480B-8E44-CE50609736B9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{734C60D2-7FF5-481C-A184-D5E4DBAF6A44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{734C60D2-7FF5-481C-A184-D5E4DBAF6A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{734C60D2-7FF5-481C-A184-D5E4DBAF6A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{734C60D2-7FF5-481C-A184-D5E4DBAF6A44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{481E44BC-63C9-480B-8E44-CE50609736B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{481E44BC-63C9-480B-8E44-CE50609736B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{481E44BC-63C9-480B-8E44-CE50609736B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{481E44BC-63C9-480B-8E44-CE50609736B9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
