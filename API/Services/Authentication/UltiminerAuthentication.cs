@@ -18,13 +18,13 @@ namespace Services.Authentication {
 
         public UltiminerToken CreateToken(DiscordIdentity identity) {
 
-            JwtSecurityTokenHandler handler = new ();
+            JwtSecurityTokenHandler handler = new();
 
             //Save this, since we need to include it in the token DTO
             int secondsToLive = settings.SecondsToLive;
 
             //Create a new token containing useful identifying information
-            SecurityTokenDescriptor tokenDescriptor = new (){
+            SecurityTokenDescriptor tokenDescriptor = new(){
 
                 Subject = new ClaimsIdentity(new Claim[]{
                     new Claim(ClaimTypes.NameIdentifier, identity.Id),
@@ -42,7 +42,7 @@ namespace Services.Authentication {
             string tokenString = handler.WriteToken(token);
 
             //Create the Ultiminer Token DTO
-            UltiminerToken dto = new () { 
+            UltiminerToken dto = new() { 
                 AccessToken = tokenString,
                 ExpiresIn = secondsToLive,
                 TokenType = TOKEN_TYPE

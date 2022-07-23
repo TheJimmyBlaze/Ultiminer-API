@@ -26,14 +26,14 @@ namespace Services.Authentication {
             HttpClient client = clientFactory.CreateClient();
 
             //Create post body as form data
-            Dictionary<string, string> request = new (){
+            Dictionary<string, string> request = new(){
                 {"client_id", settings.ClientId},
                 {"client_secret", settings.ClientSecret},
                 {"grant_type", EXCHANGE_GRANT_TYPE},
                 {"code", authCode},
                 {"redirect_uri", settings.RedirectURL}
             };
-            FormUrlEncodedContent content = new (request);
+            FormUrlEncodedContent content = new(request);
 
             //Submit request
             string requestURL = $"{settings.APIEndpoint}{OAUTH_ROUTE}";

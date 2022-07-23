@@ -51,7 +51,7 @@ namespace Controllers.Authentication {
                     string id = token.FindFirst(ClaimTypes.NameIdentifier)!.Value;
                     string name = token.FindFirst(ClaimTypes.Name)!.Value;
 
-                    UltiminerIdentity response = new () {
+                    UltiminerIdentity response = new() {
                         Id = id,
                         Username = name
                     };

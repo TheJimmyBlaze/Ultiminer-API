@@ -10,7 +10,7 @@ using Database;
 var builder = WebApplication.CreateBuilder(args);
 
 //Settings
-UltiminerSettings settings = new ();
+UltiminerSettings settings = new();
 builder.Configuration.GetSection(UltiminerSettings.ULTIMINER_SECTION).Bind(settings);
 builder.Services.AddSingleton(settings);
 
