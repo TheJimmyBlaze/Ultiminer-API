@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Ultiminer-API.csproj",
+                "${workspaceFolder}/API/Ultiminer-API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Ultiminer-API.csproj",
+                "${workspaceFolder}/API/Ultiminer-API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/Ultiminer-API.csproj"
+                "${workspaceFolder}/API/Ultiminer-API.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

@@ -7,6 +7,7 @@ using Config;
 using Services.Authentication;
 using Database;
 using Services.Users;
+using Services.DropTables;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,12 +29,14 @@ builder.Logging.AddConsole();
 
 //Database
 string dbConnectionString = builder.Configuration.GetConnectionString("UltiminerDB");
-builder.Services.AddDbContext<UltiminerContext>(config => config.UseSqlServer(dbConnectionString));
+builder.Services.AddDbContextFactory<UltiminerContext>(config => config.UseSqlServer(dbConnectionString));
 
 //Services
 builder.Services.AddTransient<UltiminerAuthentication>();
 builder.Services.AddTransient<DiscordAuthentication>();
 builder.Services.AddTransient<UserManagement>();
+
+builder.Services.AddSingleton<DropTableIndex>();
 
 //Controllers
 builder.Services.AddControllers();
