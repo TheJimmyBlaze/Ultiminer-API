@@ -1,13 +1,8 @@
 
 using System.Diagnostics;
-using System.Linq.Expressions;
 using Database;
-using Database.Data;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Services.DropTables {
 
@@ -16,7 +11,7 @@ namespace Services.DropTables {
         private readonly ILogger<DropTableIndex> logger;
         private readonly IDbContextFactory<UltiminerContext> databaseFactory;
         
-        private readonly Dictionary<string, Tuple<int, List<Tuple<int, string>>>> indexes = new();
+        private readonly Dictionary<string, List<Tuple<float, string>>> cache = new();
 
         public DropTableIndex(ILogger<DropTableIndex> logger, IDbContextFactory<UltiminerContext> databaseFactory) {
             this.logger = logger;
@@ -28,7 +23,7 @@ namespace Services.DropTables {
         public void BuildIndex() {
 
             //Reset the index dictionary
-            indexes.Clear();
+            cache.Clear();
 
             logger.LogInformation("Building Drop Table Indexes...");
             Stopwatch totalTimer = new();
@@ -45,37 +40,46 @@ namespace Services.DropTables {
 
             foreach(Node node in nodes) {
 
+                List<Tuple<float, string>> nodeTable = new();
+
                 logger.LogInformation("Building Drop table Index for Node: {DisplayName}", node.DisplayName);
                 Stopwatch nodeTimer = new();
                 nodeTimer.Start();
 
-                //Do stuff
+                IEnumerable<NodeDropTable> tables = node.DropTables.OrderByDescending(table => table.TableRarity);
+                int maxTableIndex = tables.Count() -1;
+                float totalTableRarity = tables.Sum(table => table.TableRarity);
 
-                //Just do a single table for now
-                foreach(NodeDropTable table in node.DropTables) {
+                for(int tableIndex = 0; tableIndex <= maxTableIndex; tableIndex++) {
 
-                    List<Tuple<int, string>> tableIndex = new();
+                    DropTable table = tables.ElementAt(tableIndex).DropTable;
+                    float tableRarity = tables.ElementAt(maxTableIndex - tableIndex).TableRarity;
+                    float tableRarityPercent = tableRarity / totalTableRarity;
 
-                    IEnumerable<DropTableResource> resources = table.DropTable.Resources.OrderBy(resource => resource.Rarity);
+                    IEnumerable<DropTableResource> resources = table.Resources.OrderByDescending(resource => resource.Rarity);
                     int maxResourceIndex = resources.Count() -1;
-                    for(int i = 0; i <= maxResourceIndex; i++) {
+                    float totalResourceRarity = resources.Sum(resource => resource.Rarity);
 
-                        string resourceId = resources.ElementAt(i).ResourceId;
-                        int baseRarity = resources.ElementAt(maxResourceIndex - i).Rarity;
-                        int additiveRarity = tableIndex.LastOrDefault()?.Item1 ?? 0;
-                        int rarity = baseRarity + additiveRarity;
-                        tableIndex.Add(new(rarity, resourceId));
+                    for(int resourceIndex = 0; resourceIndex <= maxResourceIndex; resourceIndex++) {
+
+                        string resourceId = resources.ElementAt(resourceIndex).ResourceId;
+                        float resourceRarity = resources.ElementAt(maxResourceIndex - resourceIndex).Rarity;
+                        float resourceRarityPercent = resourceRarity / totalResourceRarity;
+
+                        float rarity = resourceRarityPercent * tableRarityPercent;
+                        nodeTable.Add(new(rarity, resourceId));
                     }
-
-                    indexes.Add(node.NaturalId + "." + table.DropTableId, new(0, tableIndex));
                 }
 
+                cache.Add(node.NaturalId, nodeTable);
+                logger.LogInformation("{Node} Cache Sum: {Sum}", node.NaturalId, nodeTable.Sum(index => index.Item1));
+
                 nodeTimer.Stop();
-                logger.LogInformation("Finished building Drop Table Index for Node: {DisplayName} after: {NodeTimerMS}ms", node.DisplayName, nodeTimer.ElapsedMilliseconds);
+                logger.LogInformation("Finished building Drop Table Index for Node: {DisplayName} after: {NodeTimerMS}", node.DisplayName, nodeTimer.Elapsed);
             }
 
             totalTimer.Stop();
-            logger.LogInformation("Finished building all Drop Table Indexes after: {TotalTimerMS}ms", totalTimer.ElapsedMilliseconds);
+            logger.LogInformation("Finished building all Drop Table Indexes after: {TotalTimerMS}", totalTimer.Elapsed);
         }
     }
 }
