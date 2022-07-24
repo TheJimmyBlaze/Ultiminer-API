@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Config;
 using Services.Authentication;
 using Database;
+using Services.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,7 @@ builder.Services.AddDbContext<UltiminerContext>(config => config.UseSqlServer(db
 //Services
 builder.Services.AddTransient<UltiminerAuthentication>();
 builder.Services.AddTransient<DiscordAuthentication>();
+builder.Services.AddTransient<UserManagement>();
 
 //Controllers
 builder.Services.AddControllers();

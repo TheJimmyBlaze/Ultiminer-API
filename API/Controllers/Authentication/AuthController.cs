@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using System.Security.Principal;
-using System.Security.Claims;
 using Services.Authentication;
 using Models;
+using Services.Users;
 
 namespace Controllers.Authentication {
 
@@ -12,10 +11,15 @@ namespace Controllers.Authentication {
 
         private readonly UltiminerAuthentication ultiminerAuthentication;
         private readonly DiscordAuthentication discordAuthentication;
+        private readonly UserManagement userManagement;
 
-        public AuthController(UltiminerAuthentication ultiminerAuthentication, DiscordAuthentication discordAuthentication) {
+        public AuthController(UltiminerAuthentication ultiminerAuthentication, 
+            DiscordAuthentication discordAuthentication, 
+            UserManagement userManagement) {
+
             this.ultiminerAuthentication = ultiminerAuthentication;
             this.discordAuthentication = discordAuthentication;
+            this.userManagement = userManagement;
         }
 
         [HttpPost("DiscordAuthCode")]
@@ -33,34 +37,13 @@ namespace Controllers.Authentication {
                 //Create Ultiminer token using discord identity data
                 UltiminerToken ultiminerToken = await Task.Run(() => ultiminerAuthentication.CreateToken(discordIdentity));
 
+                //Ensure a user account exists
+                await userManagement.EnsureUserExits(discordIdentity.Id);
+
                 return Results.Ok(ultiminerToken);
 
             } catch (Exception ex) {
                 return Results.BadRequest(ex.Message);
-            }
-        }
-
-        [HttpGet("@Me")]
-        public IResult GetMe() {
-
-            try {
-
-                IIdentity? identity = HttpContext.User.Identity as ClaimsIdentity;
-                if (identity is ClaimsIdentity token) {
-
-                    string id = token.FindFirst(ClaimTypes.NameIdentifier)!.Value;
-                    string name = token.FindFirst(ClaimTypes.Name)!.Value;
-
-                    UltiminerIdentity response = new() {
-                        Id = id,
-                        Username = name
-                    };
-                    return Results.Ok(response);
-                }
-                throw new UnauthorizedAccessException();
-
-            } catch (Exception) {
-                return Results.Unauthorized();
             }
         }
     }
