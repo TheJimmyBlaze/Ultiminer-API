@@ -11,7 +11,7 @@ namespace Services.DropTables {
         private readonly ILogger<DropTableIndex> logger;
         private readonly IDbContextFactory<UltiminerContext> databaseFactory;
         
-        private readonly Dictionary<string, List<Tuple<float, string>>> cache = new();
+        private readonly Dictionary<string, List<Tuple<float, string>>> index = new();
 
         public DropTableIndex(ILogger<DropTableIndex> logger, IDbContextFactory<UltiminerContext> databaseFactory) {
             this.logger = logger;
@@ -23,7 +23,7 @@ namespace Services.DropTables {
         public void BuildIndex() {
 
             //Reset the index dictionary
-            cache.Clear();
+            index.Clear();
 
             logger.LogInformation("Building Drop Table Indexes...");
             Stopwatch totalTimer = new();
@@ -40,46 +40,58 @@ namespace Services.DropTables {
 
             foreach(Node node in nodes) {
 
-                List<Tuple<float, string>> nodeTable = new();
+                //Just one table at a time till I actually get this to word :,(
+                foreach(NodeDropTable table in node.DropTables) {
 
-                logger.LogInformation("Building Drop table Index for Node: {DisplayName}", node.DisplayName);
-                Stopwatch nodeTimer = new();
-                nodeTimer.Start();
+                    IEnumerable<DropTableResource> resources = table.DropTable.Resources;
 
-                IEnumerable<NodeDropTable> tables = node.DropTables.OrderByDescending(table => table.TableRarity);
-                int maxTableIndex = tables.Count() -1;
-                float totalTableRarity = tables.Sum(table => table.TableRarity);
+                    //Sort by descending, this is important for later triangular form
+                    IEnumerable<DropTableResource> sorted = resources.OrderByDescending(resource => resource.Rarity);
 
-                for(int tableIndex = 0; tableIndex <= maxTableIndex; tableIndex++) {
+                    //Build a weight index for the table
+                    Dictionary<int, int> weightIndex = BuildWeightIndex(sorted);
 
-                    DropTable table = tables.ElementAt(tableIndex).DropTable;
-                    float tableRarity = tables.ElementAt(maxTableIndex - tableIndex).TableRarity;
-                    float tableRarityPercent = tableRarity / totalTableRarity;
+                    //Replace each rarity with it's indexed weight
+                    IEnumerable<int> weights = sorted.Select(resource => weightIndex[resource.Rarity]);
 
-                    IEnumerable<DropTableResource> resources = table.Resources.OrderByDescending(resource => resource.Rarity);
-                    int maxResourceIndex = resources.Count() -1;
-                    float totalResourceRarity = resources.Sum(resource => resource.Rarity);
+                    //Convert each weight to a percentage
+                    float weightSum = weights.Sum();
+                    IEnumerable<float> percentages = weights.Select(weight => weight / weightSum);
 
-                    for(int resourceIndex = 0; resourceIndex <= maxResourceIndex; resourceIndex++) {
+                    //Convert percentages to triangular form, optimizing later drop calculation
+                    IEnumerable<float> slidingSum = percentages.Prepend(0).Zip(percentages, (current, previous) => current + previous);
+                    IEnumerable<float> triangular = slidingSum.Prepend(0).Zip(percentages, (slidingSum, percentage) => slidingSum + percentage);
 
-                        string resourceId = resources.ElementAt(resourceIndex).ResourceId;
-                        float resourceRarity = resources.ElementAt(maxResourceIndex - resourceIndex).Rarity;
-                        float resourceRarityPercent = resourceRarity / totalResourceRarity;
-
-                        float rarity = resourceRarityPercent * tableRarityPercent;
-                        nodeTable.Add(new(rarity, resourceId));
-                    }
+                    //Create the percentage index by pairing the triangular percentage with it's resource ID
+                    IDictionary<float, string> index = triangular.Zip(sorted, (triangular, resource) => new KeyValuePair<float, string>(triangular, resource.ResourceId))
+                        .ToDictionary(index => index.Key, index => index.Value);
                 }
-
-                cache.Add(node.NaturalId, nodeTable);
-                logger.LogInformation("{Node} Cache Sum: {Sum}", node.NaturalId, nodeTable.Sum(index => index.Item1));
-
-                nodeTimer.Stop();
-                logger.LogInformation("Finished building Drop Table Index for Node: {DisplayName} after: {NodeTimerMS}", node.DisplayName, nodeTimer.Elapsed);
             }
 
             totalTimer.Stop();
             logger.LogInformation("Finished building all Drop Table Indexes after: {TotalTimerMS}", totalTimer.Elapsed);
+        }
+
+        private static Dictionary<int, int> BuildWeightIndex(IEnumerable<DropTableResource> resources) {
+
+            //Get each unique rarity on the table
+            IEnumerable<int> distinct = resources
+                .Select(resource => resource.Rarity)
+                .Distinct();
+
+            //Invert the rarities by subtracting them from the sum
+            int raritySum = distinct.Sum();
+            IEnumerable<int> inverted = distinct.Select(rarity => raritySum - rarity);
+
+            //Convert the set of numbers to triangular form, each number summed with it's predecessors
+            IEnumerable<int> slidingSum = inverted.Prepend(0).Zip(inverted, (current, previous) => current + previous);
+            IEnumerable<int> triangular = slidingSum.Prepend(0).Zip(inverted, (slidingSum, inverted) => slidingSum + inverted);
+
+            //Create the weight index by pairing the triangular form with it's original value
+            Dictionary<int, int> weightIndex = triangular.Zip(distinct, (triangular, original) => new KeyValuePair<int, int>(original, triangular))
+                .ToDictionary(index => index.Key, index => index.Value);
+
+            return weightIndex;
         }
     }
 }
