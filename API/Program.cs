@@ -36,6 +36,8 @@ builder.Services.AddTransient<UltiminerAuthentication>();
 builder.Services.AddTransient<DiscordAuthentication>();
 builder.Services.AddTransient<UserManagement>();
 
+Random random = new();
+builder.Services.AddSingleton(random);
 builder.Services.AddSingleton<LootTableIndex>();
 
 //Controllers

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using Database;
 using Database.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Services.Loot {
@@ -9,15 +10,45 @@ namespace Services.Loot {
     public class LootTableIndex {
 
         private readonly ILogger<LootTableIndex> logger;
+        private readonly Random random;
         private readonly IDbContextFactory<UltiminerContext> databaseFactory;
-        
-        private readonly Dictionary<string, List<Tuple<float, string>>> index = new();
 
-        public LootTableIndex(ILogger<LootTableIndex> logger, IDbContextFactory<UltiminerContext> databaseFactory) {
+        private struct NodeIndex {
+            public int Quantity {get; set;}
+            public IDictionary<double, string> Index {get; set;}
+        }
+        private readonly Dictionary<string, NodeIndex> index = new();
+
+        public LootTableIndex(ILogger<LootTableIndex> logger, 
+            Random random,
+            IDbContextFactory<UltiminerContext> databaseFactory) {
+
             this.logger = logger;
+            this.random = random;
             this.databaseFactory = databaseFactory;
 
             BuildIndex();
+        }
+
+        public List<string> GenerateLoot(string nodeId) {
+
+            if (index.TryGetValue(nodeId, out NodeIndex nodeIndex)) {
+                
+                List<string> loot = new();
+
+                int quantity = random.Next(nodeIndex.Quantity);
+                for(int roll = 0; roll <= quantity; roll++) {
+
+                    double lootKey = random.NextDouble();
+                    string lootId = nodeIndex.Index.First(index => index.Key >= lootKey).Value;
+
+                    loot.Add(lootId);
+                }
+
+                return loot;
+            }
+
+            throw new ArgumentException("Invalid Node Id: {0}", nodeId);
         }
 
         public void BuildIndex() {
@@ -44,9 +75,13 @@ namespace Services.Loot {
                 List<KeyValuePair<string, int>> resources = new();
                 foreach(NodeLootTable table in node.LooTables) {
 
+                    //Include only eligible resources for this node
+                    IEnumerable<LootTableResource> eligibleResources = table.LootTable.Resources
+                        .Where(resource => resource.Rarity >= table.MinRarity && resource.Rarity <= table.MaxRarity);
+
                     //Resolve each resources rarity by multiplying it by it's table's rarity
                     int tableRarity = table.TableRarity;
-                    IEnumerable<KeyValuePair<string, int>> tableResources = table.LootTable.Resources
+                    IEnumerable<KeyValuePair<string, int>> tableResources = eligibleResources
                         .Select(resource => new KeyValuePair<string, int>(resource.ResourceId, resource.Rarity * tableRarity));
                     resources.AddRange(tableResources);
                 }
@@ -62,16 +97,23 @@ namespace Services.Loot {
                 IEnumerable<int> weights = sorted.Select(resource => weightIndex[resource.Value]);
 
                 //Convert each weight to a percentage
-                float weightSum = weights.Sum();
-                IEnumerable<float> percentages = weights.Select(weight => weight / weightSum);
+                double weightSum = weights.Sum();
+                IEnumerable<double> percentages = weights.Select(weight => weight / weightSum);
 
                 //Convert percentages to triangular form, optimizing later loot calculation
-                IEnumerable<float> triangular = percentages.Select((_, i) => percentages.Take(i + 1).Sum());
+                IEnumerable<double> triangular = percentages.Select((_, i) => percentages.Take(i + 1).Sum());
 
                 //Create the percentage index by pairing the triangular percentage with it's resource ID
-                IDictionary<float, string> index = triangular
-                    .Zip(sorted, (triangular, resource) => new KeyValuePair<float, string>(triangular, resource.Key))
+                IDictionary<double, string> indexData = triangular
+                    .Zip(sorted, (triangular, resource) => new KeyValuePair<double, string>(triangular, resource.Key))
                     .ToDictionary(index => index.Key, index => index.Value);
+
+                //Add the node index to the loot index
+                NodeIndex nodeIndex = new(){
+                    Quantity = node.Quantity,
+                    Index = indexData
+                };
+                index.Add(node.NaturalId, nodeIndex);
             }
 
             totalTimer.Stop();

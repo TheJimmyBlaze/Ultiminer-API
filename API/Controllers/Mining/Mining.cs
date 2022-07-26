@@ -16,7 +16,7 @@ namespace Controller.Mining {
         [AllowAnonymous]
         public IResult Mine() {
             
-            return Results.Ok();
+            return Results.Ok(index.GenerateLoot("Node.Stone"));
         }
     }
 }
