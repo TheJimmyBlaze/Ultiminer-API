@@ -1,16 +1,16 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Services.DropTables;
+using Services.Loot;
 
 namespace Controller.Mining {
 
     [ApiController]
     public class MiningController : ControllerBase {
 
-        private readonly DropTableIndex index;
+        private readonly LootTableIndex index;
 
-        public MiningController(DropTableIndex index) => this.index = index;
+        public MiningController(LootTableIndex index) => this.index = index;
 
         [HttpGet("Mine")]
         [AllowAnonymous]

@@ -7,7 +7,7 @@ using Config;
 using Services.Authentication;
 using Database;
 using Services.Users;
-using Services.DropTables;
+using Services.Loot;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +36,7 @@ builder.Services.AddTransient<UltiminerAuthentication>();
 builder.Services.AddTransient<DiscordAuthentication>();
 builder.Services.AddTransient<UserManagement>();
 
-builder.Services.AddSingleton<DropTableIndex>();
+builder.Services.AddSingleton<LootTableIndex>();
 
 //Controllers
 builder.Services.AddControllers();
