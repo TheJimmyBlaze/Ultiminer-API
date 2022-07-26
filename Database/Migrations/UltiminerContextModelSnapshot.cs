@@ -21,7 +21,7 @@ namespace Ultiminer_Database.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Database.Models.DropTable", b =>
+            modelBuilder.Entity("Database.Models.LootTable", b =>
                 {
                     b.Property<string>("NaturalId")
                         .HasColumnType("nvarchar(450)");
@@ -32,7 +32,7 @@ namespace Ultiminer_Database.Migrations
 
                     b.HasKey("NaturalId");
 
-                    b.ToTable("DropTables");
+                    b.ToTable("LootTables");
 
                     b.HasData(
                         new
@@ -52,9 +52,9 @@ namespace Ultiminer_Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Database.Models.DropTableResource", b =>
+            modelBuilder.Entity("Database.Models.LootTableResource", b =>
                 {
-                    b.Property<string>("DropTableId")
+                    b.Property<string>("LootTableId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ResourceId")
@@ -63,52 +63,52 @@ namespace Ultiminer_Database.Migrations
                     b.Property<int>("Rarity")
                         .HasColumnType("int");
 
-                    b.HasKey("DropTableId", "ResourceId");
+                    b.HasKey("LootTableId", "ResourceId");
 
                     b.HasIndex("ResourceId");
 
-                    b.ToTable("DropTableResources");
+                    b.ToTable("LootTableResources");
 
                     b.HasData(
                         new
                         {
-                            DropTableId = "Table.Stone",
+                            LootTableId = "Table.Stone",
                             ResourceId = "Stone.Simple",
                             Rarity = 10
                         },
                         new
                         {
-                            DropTableId = "Table.Stone",
+                            LootTableId = "Table.Stone",
                             ResourceId = "Stone.Slate",
                             Rarity = 15
                         },
                         new
                         {
-                            DropTableId = "Table.Treasure",
+                            LootTableId = "Table.Treasure",
                             ResourceId = "Treasure.Rod.Wooden",
                             Rarity = 10
                         },
                         new
                         {
-                            DropTableId = "Table.Treasure",
+                            LootTableId = "Table.Treasure",
                             ResourceId = "Treasure.Binding.Linen",
                             Rarity = 15
                         },
                         new
                         {
-                            DropTableId = "Table.Treasure",
+                            LootTableId = "Table.Treasure",
                             ResourceId = "Treasure.Cube.Brass",
                             Rarity = 50
                         },
                         new
                         {
-                            DropTableId = "Table.Gems",
+                            LootTableId = "Table.Gems",
                             ResourceId = "Gem.Raw.Quartz",
                             Rarity = 10
                         },
                         new
                         {
-                            DropTableId = "Table.Gems",
+                            LootTableId = "Table.Gems",
                             ResourceId = "Gem.Raw.Opal",
                             Rarity = 15
                         });
@@ -145,76 +145,76 @@ namespace Ultiminer_Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Database.Models.NodeDropTable", b =>
+            modelBuilder.Entity("Database.Models.NodeLootTable", b =>
                 {
                     b.Property<string>("NodeId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("DropTableId")
+                    b.Property<string>("LootTableId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("MaxDropRarity")
+                    b.Property<int>("MaxRarity")
                         .HasColumnType("int");
 
-                    b.Property<int>("MinDropRarity")
+                    b.Property<int>("MinRarity")
                         .HasColumnType("int");
 
                     b.Property<int>("TableRarity")
                         .HasColumnType("int");
 
-                    b.HasKey("NodeId", "DropTableId");
+                    b.HasKey("NodeId", "LootTableId");
 
-                    b.HasIndex("DropTableId");
+                    b.HasIndex("LootTableId");
 
-                    b.ToTable("NodeDropTables");
+                    b.ToTable("NodeLootTables");
 
                     b.HasData(
                         new
                         {
                             NodeId = "Node.Stone",
-                            DropTableId = "Table.Stone",
-                            MaxDropRarity = 10,
-                            MinDropRarity = 0,
+                            LootTableId = "Table.Stone",
+                            MaxRarity = 10,
+                            MinRarity = 0,
                             TableRarity = 10
                         },
                         new
                         {
                             NodeId = "Node.Stone",
-                            DropTableId = "Table.Treasure",
-                            MaxDropRarity = 15,
-                            MinDropRarity = 0,
+                            LootTableId = "Table.Treasure",
+                            MaxRarity = 15,
+                            MinRarity = 0,
                             TableRarity = 100
                         },
                         new
                         {
                             NodeId = "Node.Stone",
-                            DropTableId = "Table.Gems",
-                            MaxDropRarity = 10,
-                            MinDropRarity = 0,
+                            LootTableId = "Table.Gems",
+                            MaxRarity = 10,
+                            MinRarity = 0,
                             TableRarity = 200
                         },
                         new
                         {
                             NodeId = "Node.Slate",
-                            DropTableId = "Table.Stone",
-                            MaxDropRarity = 15,
-                            MinDropRarity = 0,
+                            LootTableId = "Table.Stone",
+                            MaxRarity = 15,
+                            MinRarity = 0,
                             TableRarity = 10
                         },
                         new
                         {
                             NodeId = "Node.Slate",
-                            DropTableId = "Table.Treasure",
-                            MaxDropRarity = 50,
-                            MinDropRarity = 0,
+                            LootTableId = "Table.Treasure",
+                            MaxRarity = 50,
+                            MinRarity = 0,
                             TableRarity = 100
                         },
                         new
                         {
                             NodeId = "Node.Slate",
-                            DropTableId = "Table.Gems",
-                            MaxDropRarity = 15,
-                            MinDropRarity = 0,
+                            LootTableId = "Table.Gems",
+                            MaxRarity = 15,
+                            MinRarity = 0,
                             TableRarity = 200
                         });
                 });
@@ -298,11 +298,11 @@ namespace Ultiminer_Database.Migrations
                     b.ToTable("UserResources");
                 });
 
-            modelBuilder.Entity("Database.Models.DropTableResource", b =>
+            modelBuilder.Entity("Database.Models.LootTableResource", b =>
                 {
-                    b.HasOne("Database.Models.DropTable", "DropTable")
+                    b.HasOne("Database.Models.LootTable", "LootTable")
                         .WithMany("Resources")
-                        .HasForeignKey("DropTableId")
+                        .HasForeignKey("LootTableId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -312,26 +312,26 @@ namespace Ultiminer_Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("DropTable");
+                    b.Navigation("LootTable");
 
                     b.Navigation("Resource");
                 });
 
-            modelBuilder.Entity("Database.Models.NodeDropTable", b =>
+            modelBuilder.Entity("Database.Models.NodeLootTable", b =>
                 {
-                    b.HasOne("Database.Models.DropTable", "DropTable")
+                    b.HasOne("Database.Models.LootTable", "LootTable")
                         .WithMany()
-                        .HasForeignKey("DropTableId")
+                        .HasForeignKey("LootTableId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Database.Models.Node", "Node")
-                        .WithMany("DropTables")
+                        .WithMany("LooTables")
                         .HasForeignKey("NodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("DropTable");
+                    b.Navigation("LootTable");
 
                     b.Navigation("Node");
                 });
@@ -355,14 +355,14 @@ namespace Ultiminer_Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Database.Models.DropTable", b =>
+            modelBuilder.Entity("Database.Models.LootTable", b =>
                 {
                     b.Navigation("Resources");
                 });
 
             modelBuilder.Entity("Database.Models.Node", b =>
                 {
-                    b.Navigation("DropTables");
+                    b.Navigation("LooTables");
                 });
 
             modelBuilder.Entity("Database.Models.User", b =>

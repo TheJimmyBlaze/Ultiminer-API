@@ -1,6 +1,6 @@
 using Database.Data;
-using Database.Data.DropTableResources;
-using Database.Data.NodeDropTables;
+using Database.Data.LootTableResources;
+using Database.Data.NodeLootTables;
 using Database.Data.Resources;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
@@ -15,9 +15,9 @@ namespace Database {
         public DbSet<Resource> Resources {get; set;}
         public DbSet<UserResource> UserResources {get; set;}
         
-        public DbSet<DropTable> DropTables {get; set;}
-        public DbSet<DropTableResource> DropTableResources {get; set;}
-        public DbSet<NodeDropTable> NodeDropTables {get; set;}
+        public DbSet<LootTable> LootTables {get; set;}
+        public DbSet<LootTableResource> LootTableResources {get; set;}
+        public DbSet<NodeLootTable> NodeLootTables {get; set;}
 
         private readonly List<IDataGenerator> generators = new() {
 
@@ -29,15 +29,15 @@ namespace Database {
             new Treasures(),
             new Gems(),
 
-            //Drop Tables
-            new DropTables(),
+            //Loot Tables
+            new LootTables(),
 
-            //Drop Table Resources
+            //Loot Table Resources
             new StoneResourceTable(),
             new TreasureResourceTable(),
             new GemResourceTable(),
 
-            //Node Drop tables
+            //Node Loot tables
             new StoneNodeTable(),
             new SlateNodeTable()
         };
@@ -47,8 +47,8 @@ namespace Database {
         protected override void OnModelCreating(ModelBuilder builder) {
 
             builder.Entity<UserResource>().HasKey(userResource => new {userResource.UserId, userResource.ResourceId});
-            builder.Entity<DropTableResource>().HasKey(dropTableResource => new {dropTableResource.DropTableId, dropTableResource.ResourceId});
-            builder.Entity<NodeDropTable>().HasKey(nodeDropTable => new {nodeDropTable.NodeId, nodeDropTable.DropTableId});
+            builder.Entity<LootTableResource>().HasKey(lootTableResource => new {lootTableResource.LootTableId, lootTableResource.ResourceId});
+            builder.Entity<NodeLootTable>().HasKey(nodeLootTable => new {nodeLootTable.NodeId, nodeLootTable.LootTableId});
 
             generators.ForEach(generator => generator.Generate(builder));
         }

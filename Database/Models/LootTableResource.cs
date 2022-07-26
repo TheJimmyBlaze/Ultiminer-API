@@ -1,14 +1,14 @@
 
 namespace Database.Models {
 
-    public class DropTableResource {
+    public class LootTableResource {
 
-        public string DropTableId {get; set;}
+        public string LootTableId {get; set;}
         public string ResourceId {get; set;}
 
         public int Rarity {get; set;}
 
-        public DropTable DropTable {get; set;}
+        public LootTable LootTable {get; set;}
         public Resource Resource {get; set;}
     }
 }

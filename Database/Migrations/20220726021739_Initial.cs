@@ -4,12 +4,12 @@
 
 namespace Ultiminer_Database.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "DropTables",
+                name: "LootTables",
                 columns: table => new
                 {
                     NaturalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -17,7 +17,7 @@ namespace Ultiminer_Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DropTables", x => x.NaturalId);
+                    table.PrimaryKey("PK_LootTables", x => x.NaturalId);
                 });
 
             migrationBuilder.CreateTable(
@@ -57,26 +57,26 @@ namespace Ultiminer_Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "NodeDropTables",
+                name: "NodeLootTables",
                 columns: table => new
                 {
                     NodeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DropTableId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LootTableId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TableRarity = table.Column<int>(type: "int", nullable: false),
-                    MinDropRarity = table.Column<int>(type: "int", nullable: false),
-                    MaxDropRarity = table.Column<int>(type: "int", nullable: false)
+                    MinRarity = table.Column<int>(type: "int", nullable: false),
+                    MaxRarity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NodeDropTables", x => new { x.NodeId, x.DropTableId });
+                    table.PrimaryKey("PK_NodeLootTables", x => new { x.NodeId, x.LootTableId });
                     table.ForeignKey(
-                        name: "FK_NodeDropTables_DropTables_DropTableId",
-                        column: x => x.DropTableId,
-                        principalTable: "DropTables",
+                        name: "FK_NodeLootTables_LootTables_LootTableId",
+                        column: x => x.LootTableId,
+                        principalTable: "LootTables",
                         principalColumn: "NaturalId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_NodeDropTables_Nodes_NodeId",
+                        name: "FK_NodeLootTables_Nodes_NodeId",
                         column: x => x.NodeId,
                         principalTable: "Nodes",
                         principalColumn: "NaturalId",
@@ -84,24 +84,24 @@ namespace Ultiminer_Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DropTableResources",
+                name: "LootTableResources",
                 columns: table => new
                 {
-                    DropTableId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LootTableId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ResourceId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Rarity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DropTableResources", x => new { x.DropTableId, x.ResourceId });
+                    table.PrimaryKey("PK_LootTableResources", x => new { x.LootTableId, x.ResourceId });
                     table.ForeignKey(
-                        name: "FK_DropTableResources_DropTables_DropTableId",
-                        column: x => x.DropTableId,
-                        principalTable: "DropTables",
+                        name: "FK_LootTableResources_LootTables_LootTableId",
+                        column: x => x.LootTableId,
+                        principalTable: "LootTables",
                         principalColumn: "NaturalId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DropTableResources_Resources_ResourceId",
+                        name: "FK_LootTableResources_Resources_ResourceId",
                         column: x => x.ResourceId,
                         principalTable: "Resources",
                         principalColumn: "NaturalId",
@@ -134,7 +134,7 @@ namespace Ultiminer_Database.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "DropTables",
+                table: "LootTables",
                 columns: new[] { "NaturalId", "DisplayName" },
                 values: new object[,]
                 {
@@ -167,8 +167,8 @@ namespace Ultiminer_Database.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "DropTableResources",
-                columns: new[] { "DropTableId", "ResourceId", "Rarity" },
+                table: "LootTableResources",
+                columns: new[] { "LootTableId", "ResourceId", "Rarity" },
                 values: new object[,]
                 {
                     { "Table.Gems", "Gem.Raw.Opal", 15 },
@@ -181,8 +181,8 @@ namespace Ultiminer_Database.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "NodeDropTables",
-                columns: new[] { "DropTableId", "NodeId", "MaxDropRarity", "MinDropRarity", "TableRarity" },
+                table: "NodeLootTables",
+                columns: new[] { "LootTableId", "NodeId", "MaxRarity", "MinRarity", "TableRarity" },
                 values: new object[,]
                 {
                     { "Table.Gems", "Node.Slate", 15, 0, 200 },
@@ -194,14 +194,14 @@ namespace Ultiminer_Database.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DropTableResources_ResourceId",
-                table: "DropTableResources",
+                name: "IX_LootTableResources_ResourceId",
+                table: "LootTableResources",
                 column: "ResourceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_NodeDropTables_DropTableId",
-                table: "NodeDropTables",
-                column: "DropTableId");
+                name: "IX_NodeLootTables_LootTableId",
+                table: "NodeLootTables",
+                column: "LootTableId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserResources_ResourceId",
@@ -212,16 +212,16 @@ namespace Ultiminer_Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DropTableResources");
+                name: "LootTableResources");
 
             migrationBuilder.DropTable(
-                name: "NodeDropTables");
+                name: "NodeLootTables");
 
             migrationBuilder.DropTable(
                 name: "UserResources");
 
             migrationBuilder.DropTable(
-                name: "DropTables");
+                name: "LootTables");
 
             migrationBuilder.DropTable(
                 name: "Nodes");

@@ -1,9 +1,7 @@
 
 using System.Diagnostics;
-using System.Security.AccessControl;
 using Database;
 using Database.Models;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.EntityFrameworkCore;
 
 namespace Services.Loot {
@@ -27,7 +25,7 @@ namespace Services.Loot {
             //Reset the index dictionary
             index.Clear();
 
-            logger.LogInformation("Building Drop Table Indexes...");
+            logger.LogInformation("Building Loot Table Indexes...");
             Stopwatch totalTimer = new();
             totalTimer.Start();
 
@@ -36,19 +34,19 @@ namespace Services.Loot {
 
             //Build the index for every node
             IEnumerable<Node> nodes = database.Nodes
-                .Include(node => node.DropTables)
-                .ThenInclude(table => table.DropTable)
+                .Include(node => node.LooTables)
+                .ThenInclude(table => table.LootTable)
                 .ThenInclude(table => table.Resources);
 
             foreach(Node node in nodes) {
 
                 //Collapse each table into a single set
                 List<KeyValuePair<string, int>> resources = new();
-                foreach(NodeDropTable table in node.DropTables) {
+                foreach(NodeLootTable table in node.LooTables) {
 
                     //Resolve each resources rarity by multiplying it by it's table's rarity
                     int tableRarity = table.TableRarity;
-                    IEnumerable<KeyValuePair<string, int>> tableResources = table.DropTable.Resources
+                    IEnumerable<KeyValuePair<string, int>> tableResources = table.LootTable.Resources
                         .Select(resource => new KeyValuePair<string, int>(resource.ResourceId, resource.Rarity * tableRarity));
                     resources.AddRange(tableResources);
                 }
@@ -67,7 +65,7 @@ namespace Services.Loot {
                 float weightSum = weights.Sum();
                 IEnumerable<float> percentages = weights.Select(weight => weight / weightSum);
 
-                //Convert percentages to triangular form, optimizing later drop calculation
+                //Convert percentages to triangular form, optimizing later loot calculation
                 IEnumerable<float> triangular = percentages.Select((_, i) => percentages.Take(i + 1).Sum());
 
                 //Create the percentage index by pairing the triangular percentage with it's resource ID
@@ -77,7 +75,7 @@ namespace Services.Loot {
             }
 
             totalTimer.Stop();
-            logger.LogInformation("Finished building all Drop Table Indexes after: {TotalTimerMS}", totalTimer.Elapsed);
+            logger.LogInformation("Finished building all Loot Table Indexes after: {TotalTimerMS}", totalTimer.Elapsed);
         }
 
         private static Dictionary<int, int> BuildWeightIndex(IEnumerable<int> rarities) {

@@ -3,28 +3,28 @@ using Database.Data.Resources;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Database.Data.DropTableResources {
+namespace Database.Data.LootTableResources {
 
     public class GemResourceTable : IDataGenerator {
 
-        private const string DROP_TABLE_ID = DropTables.GEMS; 
+        private const string LOOT_TABLE_ID = LootTables.GEMS; 
 
-        //Drop chance decreases as rarity increases
-        private readonly List<DropTableResource> drops = new(){
+        //Loot chance decreases as rarity increases
+        private readonly List<LootTableResource> loot = new(){
             new(){
-                DropTableId = DROP_TABLE_ID,
+                LootTableId = LOOT_TABLE_ID,
                 ResourceId = Gems.RAW_QUARTZ,
                 Rarity = 10
             },
             new(){
-                DropTableId = DROP_TABLE_ID,
+                LootTableId = LOOT_TABLE_ID,
                 ResourceId = Gems.RAW_OPAL,
                 Rarity = 15
             }
         };
 
         public void Generate(ModelBuilder builder){
-            builder.Entity<DropTableResource>().HasData(drops);
+            builder.Entity<LootTableResource>().HasData(loot);
         }
     }
 }

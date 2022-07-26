@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Data {
 
-    public class DropTables : IDataGenerator {
+    public class LootTables : IDataGenerator {
 
-        //All DropTable Ids have the "Table" prefix
+        //All Loot Table Ids have the "Table" prefix
         public const string STONE = "Table.Stone";
         public const string TREASURE = "Table.Treasure";
         public const string GEMS = "Table.Gems";
 
-        private readonly List<DropTable> tables = new(){
+        private readonly List<LootTable> tables = new(){
             new(){
                 NaturalId = STONE,
                 DisplayName = "Stone"
@@ -26,8 +26,9 @@ namespace Database.Data {
             }
         };
 
+
         public void Generate(ModelBuilder builder){
-            builder.Entity<DropTable>().HasData(tables);
+            builder.Entity<LootTable>().HasData(tables);
         }
     }
 }

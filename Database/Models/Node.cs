@@ -11,6 +11,6 @@ namespace Database.Models {
 
         public int Quantity {get; set;}
 
-        public List<NodeDropTable> DropTables {get; set;}
+        public List<NodeLootTable> LooTables {get; set;}
     }
 }
