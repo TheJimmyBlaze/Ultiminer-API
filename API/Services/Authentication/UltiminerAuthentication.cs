@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Principal;
 using Config;
 using Microsoft.IdentityModel.Tokens;
 using Models;
@@ -58,6 +59,30 @@ namespace Services.Authentication {
 
             logger.LogTrace("Ultiminer token created");
             return dto;
+        }
+
+        public string GetUserFromToken(IIdentity? identity) {
+
+            logger.LogTrace("Getting user from Ultiminer token...");
+
+            if (identity is ClaimsIdentity claims) {
+
+                Claim? userClaim = claims.FindFirst(ClaimTypes.NameIdentifier);
+
+                if (userClaim == null) {
+
+                    logger.LogDebug("User resolution error: No UserIdentifier claim present in token");
+                    return string.Empty;
+                }
+
+                string userId = userClaim.Value;
+
+                logger.LogTrace("Collected user from Ultiminer token");
+                return userId;
+            }
+
+            logger.LogDebug("User resolution error: Identity was not a claims identity, how did this even happen?");
+            return string.Empty;
         }
     }
 }

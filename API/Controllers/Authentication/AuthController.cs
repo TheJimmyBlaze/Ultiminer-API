@@ -11,8 +11,8 @@ namespace Controllers.Authentication {
 
         private readonly ILogger logger;
 
-        private readonly UltiminerAuthentication ultiminerAuthentication;
-        private readonly DiscordAuthentication discordAuthentication;
+        private readonly UltiminerAuthentication ultiminerAuth;
+        private readonly DiscordAuthentication discordAuth;
         private readonly UserManagement userManagement;
 
         public AuthController(ILogger<AuthController> logger,
@@ -22,8 +22,8 @@ namespace Controllers.Authentication {
 
             this.logger = logger;
 
-            this.ultiminerAuthentication = ultiminerAuthentication;
-            this.discordAuthentication = discordAuthentication;
+            this.ultiminerAuth = ultiminerAuthentication;
+            this.discordAuth = discordAuthentication;
             this.userManagement = userManagement;
         }
 
@@ -35,13 +35,13 @@ namespace Controllers.Authentication {
             try {
 
                 //Get discord bearer token
-                DiscordToken discordToken = await discordAuthentication.ExchangeAuthCode(code.AuthCode);
+                DiscordToken discordToken = await discordAuth.ExchangeAuthCode(code.AuthCode);
 
                 //Resolve discord user identity from bearer
-                DiscordIdentity discordIdentity = await discordAuthentication.GetIdentityFromToken(discordToken);
+                DiscordIdentity discordIdentity = await discordAuth.GetIdentityFromToken(discordToken);
 
                 //Create Ultiminer token using discord identity data
-                UltiminerToken ultiminerToken = await Task.Run(() => ultiminerAuthentication.CreateToken(discordIdentity));
+                UltiminerToken ultiminerToken = await Task.Run(() => ultiminerAuth.CreateToken(discordIdentity));
 
                 //Ensure a user account exists
                 await userManagement.EnsureUserExits(discordIdentity.Id);

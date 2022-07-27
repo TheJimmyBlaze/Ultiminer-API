@@ -31,6 +31,8 @@ namespace Services.Loot {
 
         public List<string> GenerateLoot(string nodeId) {
 
+            logger.LogTrace("Generating Loot for Node: {nodeId}...", nodeId);
+
             if (index.TryGetValue(nodeId, out NodeIndex nodeIndex)) {
                 
                 List<string> loot = new();
@@ -44,9 +46,11 @@ namespace Services.Loot {
                     loot.Add(lootId);
                 }
 
+                logger.LogTrace("Generated: {lootCount} bits of loot", loot.Count);
                 return loot;
             }
 
+            logger.LogDebug("Error generating loot: Node: {nodeId} doesn't exist", nodeId);
             throw new ArgumentException("Invalid Node Id: {0}", nodeId);
         }
 
