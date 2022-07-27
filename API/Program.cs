@@ -34,7 +34,7 @@ builder.Services.AddDbContextFactory<UltiminerContext>(config => config.UseSqlSe
 //Services
 builder.Services.AddTransient<UltiminerAuthentication>();
 builder.Services.AddTransient<DiscordAuthentication>();
-builder.Services.AddTransient<UserManagement>();
+builder.Services.AddTransient<UserManager>();
 
 Random random = new();
 builder.Services.AddSingleton(random);

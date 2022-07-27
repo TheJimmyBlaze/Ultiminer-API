@@ -2,17 +2,16 @@
 using Database;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
-using Models;
 
 namespace Services.Users {
 
-    public class UserManagement {
+    public class UserManager {
 
         private readonly ILogger logger;
 
         private readonly UltiminerContext database;
 
-        public UserManagement(ILogger<UserManagement> logger,
+        public UserManager(ILogger<UserManager> logger,
             UltiminerContext database) {
             
             this.logger = logger;

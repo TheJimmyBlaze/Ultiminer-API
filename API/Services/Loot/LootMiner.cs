@@ -1,7 +1,8 @@
 
-using Database;
 using Database.Models;
 using Services.Users;
+using Services.Resources;
+using Models.Resources;
 
 namespace Services.Loot {
 
@@ -9,24 +10,40 @@ namespace Services.Loot {
 
         private readonly ILogger logger;
 
-        private readonly UltiminerContext database;
-        private readonly UserManagement userManagement;
+        private readonly LootTableIndex lootIndex;
+        private readonly UserManager userManager;
+        private readonly ResourceManager resourceManager;
 
         public LootMiner(ILogger<LootMiner> logger,
-            UltiminerContext database,
-            UserManagement userManagement) {
+            LootTableIndex lootIndex,
+            UserManager userManager,
+            ResourceManager resourceManager) {
                 
             this.logger = logger;
             
-            this.database = database;
-            this.userManagement = userManagement;
+            this.lootIndex = lootIndex;
+            this.userManager = userManager;
+            this.resourceManager = resourceManager;
         }
 
-        public async Task<List<string>> Mine(string userId, string nodeId) {
+        public async Task<NewResources> Mine(string userId, string nodeId) {
 
             logger.LogTrace("User: {userId} is trying to mine Node: {nodeId}...", userId, nodeId);
 
-            User user = await userManagement.GetUserForId(userId);
+            //Generate and add some new resources
+            List<ResourceStack> newResources = lootIndex.GenerateLoot(nodeId);
+            List<ResourceStack> addedResources = await resourceManager.AddResources(userId, newResources);
+
+            //Get the current resource total
+            List<ResourceStack> totalResources = await resourceManager.GetAllResources(userId);
+
+            NewResources result = new(){
+                NewResource = newResources,
+                TotalResources = totalResources
+            };
+
+            logger.LogTrace("Finished mining resources for user: {userId}", userId);
+            return result;
         }
     }
 }

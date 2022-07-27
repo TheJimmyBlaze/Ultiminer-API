@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Database;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
+using Models.Resources;
 
 namespace Services.Loot {
 
@@ -29,13 +30,14 @@ namespace Services.Loot {
             BuildIndex();
         }
 
-        public List<string> GenerateLoot(string nodeId) {
+        public List<ResourceStack> GenerateLoot(string nodeId) {
 
             logger.LogTrace("Generating Loot for Node: {nodeId}...", nodeId);
 
             if (index.TryGetValue(nodeId, out NodeIndex nodeIndex)) {
                 
-                List<string> loot = new();
+                //Store it as a dictionary during generation, this makes it easier to increment a resource by id
+                Dictionary<string, int> rawLoot = new();
 
                 int quantity = random.Next(nodeIndex.Quantity);
                 for(int roll = 0; roll <= quantity; roll++) {
@@ -43,11 +45,21 @@ namespace Services.Loot {
                     double lootKey = random.NextDouble();
                     string lootId = nodeIndex.Index.First(index => index.Key >= lootKey).Value;
 
-                    loot.Add(lootId);
+                    if (!rawLoot.ContainsKey(lootId)) {
+                        rawLoot[lootId] = 1;
+                    } else {
+                        rawLoot[lootId] ++;
+                    }
                 }
 
-                logger.LogTrace("Generated: {lootCount} bits of loot", loot.Count);
-                return loot;
+                //Convert the dictionary to a list of Resource Stacks
+                List<ResourceStack> resources = rawLoot.Select(raw => new ResourceStack(){
+                    ResourceId = raw.Key,
+                    Count = raw.Value
+                }).ToList();
+
+                logger.LogTrace("Generated: {lootCount} bits of loot", resources.Count);
+                return resources;
             }
 
             logger.LogDebug("Error generating loot: Node: {nodeId} doesn't exist", nodeId);

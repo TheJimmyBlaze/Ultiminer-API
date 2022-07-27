@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Services.Authentication;
-using Models;
+using Models.Authentication;
 using Services.Users;
 
 namespace Controllers.Authentication {
@@ -13,18 +13,18 @@ namespace Controllers.Authentication {
 
         private readonly UltiminerAuthentication ultiminerAuth;
         private readonly DiscordAuthentication discordAuth;
-        private readonly UserManagement userManagement;
+        private readonly UserManager userManager;
 
         public AuthController(ILogger<AuthController> logger,
             UltiminerAuthentication ultiminerAuthentication, 
             DiscordAuthentication discordAuthentication, 
-            UserManagement userManagement) {
+            UserManager userManager) {
 
             this.logger = logger;
 
             this.ultiminerAuth = ultiminerAuthentication;
             this.discordAuth = discordAuthentication;
-            this.userManagement = userManagement;
+            this.userManager = userManager;
         }
 
         [HttpPost("DiscordAuthCode")]
@@ -44,11 +44,12 @@ namespace Controllers.Authentication {
                 UltiminerToken ultiminerToken = await Task.Run(() => ultiminerAuth.CreateToken(discordIdentity));
 
                 //Ensure a user account exists
-                await userManagement.EnsureUserExits(discordIdentity.Id);
+                await userManager.EnsureUserExits(discordIdentity.Id);
 
                 return Results.Ok(ultiminerToken);
 
             } catch (Exception ex) {
+                
                 logger.LogDebug("Discord login error: {error}, {stackTrace}", ex.Message, ex.StackTrace);
                 return Results.BadRequest("Could not login with Discord");
             }

@@ -1,9 +1,10 @@
+
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Principal;
 using Config;
 using Microsoft.IdentityModel.Tokens;
-using Models;
+using Models.Authentication;
 
 namespace Services.Authentication {
 
