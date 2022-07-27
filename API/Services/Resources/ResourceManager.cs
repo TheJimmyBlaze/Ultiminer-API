@@ -12,7 +12,6 @@ namespace Services.Resources {
         private readonly ILogger logger;
 
         private readonly UltiminerContext database;
-        private readonly UserManager userManager;
 
         public ResourceManager(ILogger<ResourceManager> logger,
             UltiminerContext database) {
@@ -55,13 +54,10 @@ namespace Services.Resources {
 
         public async Task<List<ResourceStack>> AddResources(string userId, List<ResourceStack> resources) {
 
-            logger.LogTrace("Adding resources to user: {userId}...");
+            logger.LogTrace("Adding resources to user: {userId}...", userId);
 
             //Remove any bad resources
             List<ResourceStack> knownResources = CullUnknownResources(resources);
-
-            //Get the user
-            User user = await userManager.GetUserForId(userId);
 
             //Add each resource in the stack
             int newResources = 0;
@@ -69,13 +65,16 @@ namespace Services.Resources {
             foreach(ResourceStack stack in knownResources) {
                 
                 //Add any resources that don't exist, increment those that do
-                UserResource? resource = user.Resources.FirstOrDefault(resource => resource.ResourceId == stack.ResourceId);
+                UserResource? resource = database.UserResources
+                    .FirstOrDefault(resource => resource.UserId == userId && resource.ResourceId == stack.ResourceId);
                 if (resource == null) {
 
                     resource = new UserResource(){
+                        UserId = userId,
                         ResourceId = stack.ResourceId,
                         Count = stack.Count
                     };
+                    database.UserResources.Add(resource);
                     newResources += stack.Count;
                 } else {
                     

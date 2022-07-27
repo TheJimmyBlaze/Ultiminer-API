@@ -40,18 +40,5 @@ namespace Services.Users {
             logger.LogTrace("User: {userId} definitely exists", userId);
             return;
         }
-
-        public async Task<User> GetUserForId(string userId) {
-
-            logger.LogTrace("Getting user: {userId}...", userId);
-
-            User? user = await database.Users.FirstOrDefaultAsync(user => user.UserId == userId);
-            
-            //If we didn't get a user just throw, we don't really want to check a users nullability on every API call.
-            if (user == null) {
-                throw new Exception($"Unable to get user for userId: {userId}");
-            }
-            return user;
-        }
     }
 }

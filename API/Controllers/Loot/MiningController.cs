@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Authentication;
 using Services.Loot;
 using Models.Resources;
-using Services.Resources;
 
 namespace Controller.Loot {
 
@@ -29,7 +28,7 @@ namespace Controller.Loot {
             this.miner = miner;
         }
 
-        [HttpGet("Mine")]
+        [HttpPost("Mine")]
         public async Task<IResult> Mine([FromBody] ResourceNode node) {
 
             IIdentity? token = HttpContext.User.Identity;
@@ -44,11 +43,11 @@ namespace Controller.Loot {
             } catch(ArgumentException ex) {
 
                 logger.LogDebug("Mining error: {error}, {stackTrace}", ex.Message, ex.StackTrace);
-                return Results.NotFound($"{node} is not a valid Resource Node");
+                return Results.NotFound($"{node.NodeId} is not a valid Resource Node");
             }catch(Exception ex) {
 
                 logger.LogDebug("Mining error: {error}, {stackTrace}", ex.Message, ex.StackTrace);
-                return Results.BadRequest($"Something went wrong trying to mine: {node}");
+                return Results.BadRequest($"Something went wrong trying to mine: {node.NodeId}");
             }
         }
     }

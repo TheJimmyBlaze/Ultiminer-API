@@ -5,9 +5,10 @@ using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Config;
 using Services.Authentication;
-using Database;
-using Services.Users;
 using Services.Loot;
+using Services.Resources;
+using Services.Users;
+using Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +36,8 @@ builder.Services.AddDbContextFactory<UltiminerContext>(config => config.UseSqlSe
 builder.Services.AddTransient<UltiminerAuthentication>();
 builder.Services.AddTransient<DiscordAuthentication>();
 builder.Services.AddTransient<UserManager>();
+builder.Services.AddTransient<LootMiner>();
+builder.Services.AddTransient<ResourceManager>();
 
 Random random = new();
 builder.Services.AddSingleton(random);
