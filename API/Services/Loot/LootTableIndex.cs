@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using Database;
 using Database.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Services.Loot {
@@ -65,7 +64,7 @@ namespace Services.Loot {
 
             //Build the index for every node
             IEnumerable<Node> nodes = database.Nodes
-                .Include(node => node.LooTables)
+                .Include(node => node.LootTables)
                 .ThenInclude(table => table.LootTable)
                 .ThenInclude(table => table.Resources);
 
@@ -73,7 +72,7 @@ namespace Services.Loot {
 
                 //Collapse each table into a single set
                 List<KeyValuePair<string, int>> resources = new();
-                foreach(NodeLootTable table in node.LooTables) {
+                foreach(NodeLootTable table in node.LootTables) {
 
                     //Include only eligible resources for this node
                     IEnumerable<LootTableResource> eligibleResources = table.LootTable.Resources
