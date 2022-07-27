@@ -3,17 +3,24 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Services.Loot;
 
-namespace Controller.Mining {
+namespace Controller.Loot {
 
     [ApiController]
-    public class MiningController : ControllerBase {
+    public class LootMinerController : ControllerBase {
+
+        private readonly ILogger logger;
 
         private readonly LootTableIndex index;
 
-        public MiningController(LootTableIndex index) => this.index = index;
+        public LootMinerController(ILogger<LootMinerController> logger, 
+            LootTableIndex index){
+
+            this.logger = logger;
+
+            this.index = index;
+        }
 
         [HttpGet("Mine")]
-        [AllowAnonymous]
         public IResult Mine() {
             
             return Results.Ok(index.GenerateLoot("Node.Stone"));

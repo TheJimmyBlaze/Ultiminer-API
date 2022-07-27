@@ -8,15 +8,23 @@ namespace Services.Authentication {
 
     public class UltiminerAuthentication {
 
+        private readonly ILogger logger;
+
         private readonly CryptographySettings settings;
 
         private const string TOKEN_TYPE = "Bearer";
 
-        public UltiminerAuthentication(UltiminerSettings settings) {
+        public UltiminerAuthentication(ILogger<UltiminerAuthentication> logger,
+            UltiminerSettings settings) {
+
+            this.logger = logger;
+
             this.settings = settings.Cryptography;
         }
 
         public UltiminerToken CreateToken(DiscordIdentity identity) {
+
+            logger.LogTrace("Creating Ultiminer token...");
 
             JwtSecurityTokenHandler handler = new();
 
@@ -48,6 +56,7 @@ namespace Services.Authentication {
                 TokenType = TOKEN_TYPE
             };
 
+            logger.LogTrace("Ultiminer token created");
             return dto;
         }
     }

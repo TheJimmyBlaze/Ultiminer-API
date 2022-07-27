@@ -9,13 +9,18 @@ namespace Controllers.Authentication {
     [ApiController]
     public class AuthController : ControllerBase {
 
+        private readonly ILogger logger;
+
         private readonly UltiminerAuthentication ultiminerAuthentication;
         private readonly DiscordAuthentication discordAuthentication;
         private readonly UserManagement userManagement;
 
-        public AuthController(UltiminerAuthentication ultiminerAuthentication, 
+        public AuthController(ILogger<AuthController> logger,
+            UltiminerAuthentication ultiminerAuthentication, 
             DiscordAuthentication discordAuthentication, 
             UserManagement userManagement) {
+
+            this.logger = logger;
 
             this.ultiminerAuthentication = ultiminerAuthentication;
             this.discordAuthentication = discordAuthentication;
@@ -26,6 +31,7 @@ namespace Controllers.Authentication {
         [AllowAnonymous]
         public async Task<IResult> PostDiscordAuthCode([FromBody] DiscordAuthCode code) {
 
+            logger.LogTrace("Attempting Discord login...");
             try {
 
                 //Get discord bearer token
@@ -43,7 +49,8 @@ namespace Controllers.Authentication {
                 return Results.Ok(ultiminerToken);
 
             } catch (Exception ex) {
-                return Results.BadRequest(ex.Message);
+                logger.LogDebug("Discord login error: {error}, {stackTrace}", ex.Message, ex.StackTrace);
+                return Results.BadRequest("Could not login with Discord");
             }
         }
     }
