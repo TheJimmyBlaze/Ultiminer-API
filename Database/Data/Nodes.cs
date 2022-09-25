@@ -8,7 +8,7 @@ namespace Database.Data {
 
         //All Node Ids have the "Node" prefix
         public const string STONE = "Node.Stone";
-        public const string SLATE = "Node.Slate";
+        public const string FLINT = "Node.Flint";
 
         private readonly List<Node> nodes = new(){
             new(){
@@ -17,8 +17,8 @@ namespace Database.Data {
                 Quantity = 4
             },
             new(){
-                NaturalId = SLATE,
-                DisplayName = "Slate",
+                NaturalId = FLINT,
+                DisplayName = "Flint",
                 Quantity = 6
             }
         };

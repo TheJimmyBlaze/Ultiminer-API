@@ -148,7 +148,7 @@ namespace Ultiminer_Database.Migrations
                 columns: new[] { "NaturalId", "DisplayName", "Quantity" },
                 values: new object[,]
                 {
-                    { "Node.Slate", "Slate", 6 },
+                    { "Node.Flint", "Flint", 6 },
                     { "Node.Stone", "Stone", 4 }
                 });
 
@@ -160,7 +160,7 @@ namespace Ultiminer_Database.Migrations
                     { "Gem.Raw.Opal", "Opal" },
                     { "Gem.Raw.Quartz", "Quartz" },
                     { "Stone.Simple", "Stone" },
-                    { "Stone.Slate", "Slate" },
+                    { "Stone.Flint", "Flint" },
                     { "Treasure.Binding.Linen", "Linen Scrap" },
                     { "Treasure.Cube.Brass", "Brass Cube" },
                     { "Treasure.Rod.Wooden", "Wooden Rod" }
@@ -174,7 +174,7 @@ namespace Ultiminer_Database.Migrations
                     { "Table.Gems", "Gem.Raw.Opal", 15 },
                     { "Table.Gems", "Gem.Raw.Quartz", 10 },
                     { "Table.Stone", "Stone.Simple", 10 },
-                    { "Table.Stone", "Stone.Slate", 15 },
+                    { "Table.Stone", "Stone.Flint", 15 },
                     { "Table.Treasure", "Treasure.Binding.Linen", 15 },
                     { "Table.Treasure", "Treasure.Cube.Brass", 50 },
                     { "Table.Treasure", "Treasure.Rod.Wooden", 10 }
@@ -185,9 +185,9 @@ namespace Ultiminer_Database.Migrations
                 columns: new[] { "LootTableId", "NodeId", "MaxRarity", "MinRarity", "TableRarity" },
                 values: new object[,]
                 {
-                    { "Table.Gems", "Node.Slate", 15, 0, 200 },
-                    { "Table.Stone", "Node.Slate", 15, 0, 10 },
-                    { "Table.Treasure", "Node.Slate", 50, 0, 100 },
+                    { "Table.Gems", "Node.Flint", 15, 0, 200 },
+                    { "Table.Stone", "Node.Flint", 15, 0, 10 },
+                    { "Table.Treasure", "Node.Flint", 50, 0, 100 },
                     { "Table.Gems", "Node.Stone", 10, 0, 200 },
                     { "Table.Stone", "Node.Stone", 10, 0, 10 },
                     { "Table.Treasure", "Node.Stone", 15, 0, 100 }

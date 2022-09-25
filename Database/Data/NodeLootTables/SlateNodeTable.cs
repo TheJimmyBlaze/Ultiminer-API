@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Data.NodeLootTables {
 
-    public class SlateNodeTable : IDataGenerator {
+    public class FlintNodeTable : IDataGenerator {
 
-        private const string NODE_ID = Nodes.SLATE;
+        private const string NODE_ID = Nodes.FLINT;
 
         private readonly List<NodeLootTable> tables = new(){
             new(){

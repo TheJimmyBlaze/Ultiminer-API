@@ -18,7 +18,7 @@ namespace Database.Data.LootTableResources {
             },
             new(){
                 LootTableId = LOOT_TABLE_ID,
-                ResourceId = Stones.SLATE,
+                ResourceId = Stones.FLINT,
                 Rarity = 15
             }
         };

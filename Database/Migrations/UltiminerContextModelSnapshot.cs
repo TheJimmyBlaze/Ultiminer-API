@@ -78,8 +78,8 @@ namespace Ultiminer_Database.Migrations
                         },
                         new
                         {
-                            LootTableId = "Table.Stone",
-                            ResourceId = "Stone.Slate",
+                            LootTableId = "Table.Flint",
+                            ResourceId = "Stone.Flint",
                             Rarity = 15
                         },
                         new
@@ -139,8 +139,8 @@ namespace Ultiminer_Database.Migrations
                         },
                         new
                         {
-                            NaturalId = "Node.Slate",
-                            DisplayName = "Slate",
+                            NaturalId = "Node.Flint",
+                            DisplayName = "Flint",
                             Quantity = 6
                         });
                 });
@@ -195,7 +195,7 @@ namespace Ultiminer_Database.Migrations
                         },
                         new
                         {
-                            NodeId = "Node.Slate",
+                            NodeId = "Node.Flint",
                             LootTableId = "Table.Stone",
                             MaxRarity = 15,
                             MinRarity = 0,
@@ -203,7 +203,7 @@ namespace Ultiminer_Database.Migrations
                         },
                         new
                         {
-                            NodeId = "Node.Slate",
+                            NodeId = "Node.Flint",
                             LootTableId = "Table.Treasure",
                             MaxRarity = 50,
                             MinRarity = 0,
@@ -211,7 +211,7 @@ namespace Ultiminer_Database.Migrations
                         },
                         new
                         {
-                            NodeId = "Node.Slate",
+                            NodeId = "Node.Flint",
                             LootTableId = "Table.Gems",
                             MaxRarity = 15,
                             MinRarity = 0,
@@ -240,8 +240,8 @@ namespace Ultiminer_Database.Migrations
                         },
                         new
                         {
-                            NaturalId = "Stone.Slate",
-                            DisplayName = "Slate"
+                            NaturalId = "Stone.Flint",
+                            DisplayName = "Flint"
                         },
                         new
                         {
