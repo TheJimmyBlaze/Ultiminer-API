@@ -65,8 +65,9 @@ namespace Services.Resources {
             foreach(ResourceStack stack in knownResources) {
                 
                 //Add any resources that don't exist, increment those that do
-                UserResource? resource = database.UserResources
-                    .FirstOrDefault(resource => resource.UserId == userId && resource.ResourceId == stack.ResourceId);
+                UserResource? resource = await database.UserResources
+                    .FirstOrDefaultAsync(resource => resource.UserId == userId && resource.ResourceId == stack.ResourceId);
+                
                 if (resource == null) {
 
                     resource = new UserResource(){

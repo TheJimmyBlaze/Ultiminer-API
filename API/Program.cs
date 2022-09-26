@@ -8,6 +8,7 @@ using Services.Authentication;
 using Services.Loot;
 using Services.Resources;
 using Services.Users;
+using Services.Stats;
 using Database;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,6 +39,7 @@ builder.Services.AddTransient<DiscordAuthentication>();
 builder.Services.AddTransient<UserManager>();
 builder.Services.AddTransient<LootMiner>();
 builder.Services.AddTransient<ResourceManager>();
+builder.Services.AddTransient<MiningStatsManager>();
 
 Random random = new();
 builder.Services.AddSingleton(random);

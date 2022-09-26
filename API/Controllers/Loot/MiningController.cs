@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Authentication;
 using Services.Loot;
 using Models.Resources;
+using Services.Stats;
 
 namespace Controller.Loot {
 
@@ -12,18 +13,15 @@ namespace Controller.Loot {
 
         private readonly ILogger logger;
 
-        private readonly LootTableIndex index;
         private readonly UltiminerAuthentication auth;
         private readonly LootMiner miner;
 
         public MiningController(ILogger<MiningController> logger, 
-            LootTableIndex index,
             UltiminerAuthentication auth,
             LootMiner miner){
 
             this.logger = logger;
 
-            this.index = index;
             this.auth = auth;
             this.miner = miner;
         }
