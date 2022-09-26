@@ -32,7 +32,7 @@ namespace Services.Loot {
 
             //Generate and add some new resources
             List<ResourceStack> newResources = lootIndex.GenerateLoot(nodeId);
-            List<ResourceStack> addedResources = await resourceManager.AddResources(userId, newResources);
+            List<ResourceStack> addedResources = await resourceManager.AddResources(userId, newResources);  //This value is currently unused
 
             //Get the current resource total
             List<ResourceStack> totalResources = await resourceManager.GetAllResources(userId);

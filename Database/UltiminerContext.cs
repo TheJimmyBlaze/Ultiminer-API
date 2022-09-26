@@ -11,6 +11,8 @@ namespace Database {
 
         public DbSet<User> Users {get; set;}
 
+        public DbSet<MiningStats> MiningStats {get; set;}
+
         public DbSet<Node> Nodes {get; set;}
         public DbSet<Resource> Resources {get; set;}
         public DbSet<UserResource> UserResources {get; set;}
@@ -46,7 +48,10 @@ namespace Database {
 
         protected override void OnModelCreating(ModelBuilder builder) {
 
+            builder.Entity<MiningStats>().HasKey(miningStats => new {miningStats.UserId});
+
             builder.Entity<UserResource>().HasKey(userResource => new {userResource.UserId, userResource.ResourceId});
+
             builder.Entity<LootTableResource>().HasKey(lootTableResource => new {lootTableResource.LootTableId, lootTableResource.ResourceId});
             builder.Entity<NodeLootTable>().HasKey(nodeLootTable => new {nodeLootTable.NodeId, nodeLootTable.LootTableId});
 

@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Ultiminer_Database.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -109,6 +110,26 @@ namespace Ultiminer_Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MiningStats",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    LastMine = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    NextMine = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalMineActions = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MiningStats", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_MiningStats_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserResources",
                 columns: table => new
                 {
@@ -159,8 +180,8 @@ namespace Ultiminer_Database.Migrations
                 {
                     { "Gem.Raw.Opal", "Opal" },
                     { "Gem.Raw.Quartz", "Quartz" },
-                    { "Stone.Simple", "Stone" },
                     { "Stone.Flint", "Flint" },
+                    { "Stone.Simple", "Stone" },
                     { "Treasure.Binding.Linen", "Linen Scrap" },
                     { "Treasure.Cube.Brass", "Brass Cube" },
                     { "Treasure.Rod.Wooden", "Wooden Rod" }
@@ -173,8 +194,8 @@ namespace Ultiminer_Database.Migrations
                 {
                     { "Table.Gems", "Gem.Raw.Opal", 15 },
                     { "Table.Gems", "Gem.Raw.Quartz", 10 },
-                    { "Table.Stone", "Stone.Simple", 10 },
                     { "Table.Stone", "Stone.Flint", 15 },
+                    { "Table.Stone", "Stone.Simple", 10 },
                     { "Table.Treasure", "Treasure.Binding.Linen", 15 },
                     { "Table.Treasure", "Treasure.Cube.Brass", 50 },
                     { "Table.Treasure", "Treasure.Rod.Wooden", 10 }
@@ -213,6 +234,9 @@ namespace Ultiminer_Database.Migrations
         {
             migrationBuilder.DropTable(
                 name: "LootTableResources");
+
+            migrationBuilder.DropTable(
+                name: "MiningStats");
 
             migrationBuilder.DropTable(
                 name: "NodeLootTables");
