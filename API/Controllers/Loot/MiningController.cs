@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Authentication;
 using Services.Loot;
 using Models.Resources;
-using Services.Stats;
 
 namespace Controller.Loot {
 

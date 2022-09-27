@@ -21,7 +21,10 @@ builder.Services.AddSingleton(settings);
 //Setup
 builder.Services.AddCors(options => {
     options.AddDefaultPolicy(policy => {
-        policy.AllowAnyOrigin().AllowAnyHeader();
+        policy.WithOrigins("https://localhost:3000")
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials();
     });
 });
 
@@ -97,12 +100,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpsRedirection();
+app.UseRouting();
+
+app.UseCors();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors();
-app.UseHttpsRedirection();
-app.MapControllers()
-    .RequireAuthorization();
+app.UseEndpoints(endpoints => {
+
+    endpoints.MapControllers()
+        .RequireAuthorization();
+});
 
 app.Run();
