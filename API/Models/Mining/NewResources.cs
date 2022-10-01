@@ -1,7 +1,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace Models.Resources {
+namespace Models.Mining {
 
     public class NewResources {
 
@@ -9,7 +9,5 @@ namespace Models.Resources {
         public List<ResourceStack> NewResource {get; set;}
         [JsonPropertyName("total_resources")]
         public List<ResourceStack> TotalResources {get; set;}
-        [JsonPropertyName("next_mine")]
-        public DateTime NextMine {get; set;}
     }
 }

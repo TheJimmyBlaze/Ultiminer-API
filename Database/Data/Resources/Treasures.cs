@@ -14,15 +14,18 @@ namespace Database.Data.Resources {
         private readonly List<Resource> treasures = new(){
             new(){
                 NaturalId = ROD_WOODEN,
-                DisplayName = "Wooden Rod"
+                DisplayName = "Wooden Rod",
+                ExperienceAwarded = 20
             },
             new(){
                 NaturalId = BINDING_LINEN,
-                DisplayName = "Linen Scrap"
+                DisplayName = "Linen Scrap",
+                ExperienceAwarded = 25
             },
             new(){
                 NaturalId = CUBE_BRASS,
-                DisplayName = "Brass Cube"
+                DisplayName = "Brass Cube",
+                ExperienceAwarded = 75
             }
         };
 

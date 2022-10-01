@@ -8,6 +8,7 @@ namespace Database.Models {
         [Key]
         public string UserId {get; set;}
 
+        public Experience Experience {get; set;}
         public List<UserResource> Resources {get; set;}
 
         public MiningStats MiningStats {get; set;}

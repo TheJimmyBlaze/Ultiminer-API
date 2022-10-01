@@ -1,7 +1,7 @@
 
 using System.Text.Json.Serialization;
 
-namespace Models.Resources {
+namespace Models.Mining {
 
     public class ResourceNode {
         

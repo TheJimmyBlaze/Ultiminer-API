@@ -22,6 +22,19 @@ namespace Ultiminer_Database.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("Database.Models.Experience", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("TotalExperience")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Experience");
+                });
+
             modelBuilder.Entity("Database.Models.LootTable", b =>
                 {
                     b.Property<string>("NaturalId")
@@ -248,6 +261,9 @@ namespace Ultiminer_Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ExperienceAwarded")
+                        .HasColumnType("int");
+
                     b.HasKey("NaturalId");
 
                     b.ToTable("Resources");
@@ -256,37 +272,44 @@ namespace Ultiminer_Database.Migrations
                         new
                         {
                             NaturalId = "Stone.Simple",
-                            DisplayName = "Stone"
+                            DisplayName = "Stone",
+                            ExperienceAwarded = 5
                         },
                         new
                         {
                             NaturalId = "Stone.Flint",
-                            DisplayName = "Flint"
+                            DisplayName = "Flint",
+                            ExperienceAwarded = 10
                         },
                         new
                         {
                             NaturalId = "Treasure.Rod.Wooden",
-                            DisplayName = "Wooden Rod"
+                            DisplayName = "Wooden Rod",
+                            ExperienceAwarded = 20
                         },
                         new
                         {
                             NaturalId = "Treasure.Binding.Linen",
-                            DisplayName = "Linen Scrap"
+                            DisplayName = "Linen Scrap",
+                            ExperienceAwarded = 25
                         },
                         new
                         {
                             NaturalId = "Treasure.Cube.Brass",
-                            DisplayName = "Brass Cube"
+                            DisplayName = "Brass Cube",
+                            ExperienceAwarded = 75
                         },
                         new
                         {
                             NaturalId = "Gem.Raw.Quartz",
-                            DisplayName = "Quartz"
+                            DisplayName = "Quartz",
+                            ExperienceAwarded = 50
                         },
                         new
                         {
                             NaturalId = "Gem.Raw.Opal",
-                            DisplayName = "Opal"
+                            DisplayName = "Opal",
+                            ExperienceAwarded = 65
                         });
                 });
 
@@ -316,6 +339,17 @@ namespace Ultiminer_Database.Migrations
                     b.HasIndex("ResourceId");
 
                     b.ToTable("UserResources");
+                });
+
+            modelBuilder.Entity("Database.Models.Experience", b =>
+                {
+                    b.HasOne("Database.Models.User", "User")
+                        .WithOne("Experience")
+                        .HasForeignKey("Database.Models.Experience", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Database.Models.LootTableResource", b =>
@@ -398,6 +432,9 @@ namespace Ultiminer_Database.Migrations
 
             modelBuilder.Entity("Database.Models.User", b =>
                 {
+                    b.Navigation("Experience")
+                        .IsRequired();
+
                     b.Navigation("MiningStats")
                         .IsRequired();
 

@@ -15,6 +15,7 @@ namespace Database {
 
         public DbSet<Node> Nodes {get; set;}
         public DbSet<Resource> Resources {get; set;}
+        public DbSet<Experience> Experience {get; set;}
         public DbSet<UserResource> UserResources {get; set;}
         
         public DbSet<LootTable> LootTables {get; set;}
@@ -47,8 +48,6 @@ namespace Database {
         public UltiminerContext(DbContextOptions<UltiminerContext> options) : base(options){}
 
         protected override void OnModelCreating(ModelBuilder builder) {
-
-            builder.Entity<MiningStats>().HasKey(miningStats => new {miningStats.UserId});
 
             builder.Entity<UserResource>().HasKey(userResource => new {userResource.UserId, userResource.ResourceId});
 

@@ -42,6 +42,7 @@ builder.Services.AddTransient<DiscordAuthentication>();
 builder.Services.AddTransient<UserManager>();
 builder.Services.AddTransient<LootMiner>();
 builder.Services.AddTransient<ResourceManager>();
+builder.Services.AddTransient<ExperienceManager>();
 builder.Services.AddTransient<MiningStatsManager>();
 
 Random random = new();

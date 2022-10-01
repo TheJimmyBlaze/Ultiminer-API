@@ -23,14 +23,13 @@ namespace Services.Stats {
             logger.LogTrace("Recording: 1 mine action against user: {userId}...", userId);
 
             MiningStats? stats = await database.MiningStats
-                .Where(stats => stats.UserId == userId)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(stats => stats.UserId == userId);
 
             DateTime lastMine = DateTime.Now;
             if (stats == null) {
 
                 //If no existing stats, make new ones
-                stats = new MiningStats(){
+                stats = new (){
                     UserId = userId,
                     LastMine = lastMine,
                     NextMine = nextMine,

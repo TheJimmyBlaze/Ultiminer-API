@@ -39,7 +39,8 @@ namespace Ultiminer_Database.Migrations
                 columns: table => new
                 {
                     NaturalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExperienceAwarded = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,6 +111,24 @@ namespace Ultiminer_Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Experience",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    TotalExperience = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Experience", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_Experience_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MiningStats",
                 columns: table => new
                 {
@@ -175,16 +194,16 @@ namespace Ultiminer_Database.Migrations
 
             migrationBuilder.InsertData(
                 table: "Resources",
-                columns: new[] { "NaturalId", "DisplayName" },
+                columns: new[] { "NaturalId", "DisplayName", "ExperienceAwarded" },
                 values: new object[,]
                 {
-                    { "Gem.Raw.Opal", "Opal" },
-                    { "Gem.Raw.Quartz", "Quartz" },
-                    { "Stone.Flint", "Flint" },
-                    { "Stone.Simple", "Stone" },
-                    { "Treasure.Binding.Linen", "Linen Scrap" },
-                    { "Treasure.Cube.Brass", "Brass Cube" },
-                    { "Treasure.Rod.Wooden", "Wooden Rod" }
+                    { "Gem.Raw.Opal", "Opal", 65 },
+                    { "Gem.Raw.Quartz", "Quartz", 50 },
+                    { "Stone.Flint", "Flint", 10 },
+                    { "Stone.Simple", "Stone", 5 },
+                    { "Treasure.Binding.Linen", "Linen Scrap", 25 },
+                    { "Treasure.Cube.Brass", "Brass Cube", 75 },
+                    { "Treasure.Rod.Wooden", "Wooden Rod", 20 }
                 });
 
             migrationBuilder.InsertData(
@@ -232,6 +251,9 @@ namespace Ultiminer_Database.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Experience");
+
             migrationBuilder.DropTable(
                 name: "LootTableResources");
 

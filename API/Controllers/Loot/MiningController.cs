@@ -3,7 +3,7 @@ using System.Security.Principal;
 using Microsoft.AspNetCore.Mvc;
 using Services.Authentication;
 using Services.Loot;
-using Models.Resources;
+using Models.Mining;
 
 namespace Controller.Loot {
 
@@ -34,7 +34,7 @@ namespace Controller.Loot {
 
             try{
 
-                NewResources mined = await miner.Mine(userId, node.NodeId);
+                MiningResult mined = await miner.Mine(userId, node.NodeId);
                 return Results.Ok(mined); 
 
             } catch(ArgumentException ex) {

@@ -13,11 +13,13 @@ namespace Database.Data.Resources {
         private readonly List<Resource> gems = new(){
             new(){
                 NaturalId = RAW_QUARTZ,
-                DisplayName = "Quartz"
+                DisplayName = "Quartz",
+                ExperienceAwarded = 50
             },
             new(){
                 NaturalId = RAW_OPAL,
-                DisplayName = "Opal"
+                DisplayName = "Opal",
+                ExperienceAwarded = 65
             }
         };
 

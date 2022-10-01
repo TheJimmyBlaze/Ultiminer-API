@@ -1,8 +1,11 @@
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Database.Models {
 
     public class MiningStats {
 
+        [Key]
         public string UserId {get; set;}
 
         public DateTime LastMine {get; set;}

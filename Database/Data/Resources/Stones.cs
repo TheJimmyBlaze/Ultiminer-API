@@ -13,11 +13,13 @@ namespace Database.Data.Resources {
         private readonly List<Resource> stones = new(){
             new(){
                 NaturalId = STONE,
-                DisplayName = "Stone"
+                DisplayName = "Stone",
+                ExperienceAwarded = 5,
             },
             new(){
                 NaturalId = FLINT,
-                DisplayName = "Flint"
+                DisplayName = "Flint",
+                ExperienceAwarded = 10,
             }
         };
 
