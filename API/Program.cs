@@ -48,8 +48,9 @@ builder.Services.AddTransient<MiningStatsManager>();
 
 Random random = new();
 builder.Services.AddSingleton(random);
-builder.Services.AddSingleton<LootTableIndex>();
+builder.Services.AddSingleton<LevelExperienceIndex>();
 builder.Services.AddSingleton<ResourceExperienceIndex>();
+builder.Services.AddSingleton<LootTableIndex>();
 
 //Controllers
 builder.Services.AddControllers();

@@ -10,22 +10,25 @@ namespace Services.Experience {
 
         private readonly ILogger logger;
 
-        private readonly ResourceExperienceIndex index;
+        private readonly LevelExperienceIndex levelIndex;
+        private readonly ResourceExperienceIndex resourceIndex;
 
         private readonly UltiminerContext database;
 
         public ExperienceManager(ILogger<ExperienceManager> logger,
-            ResourceExperienceIndex index,
+            LevelExperienceIndex levelIndex,
+            ResourceExperienceIndex resourceIndex,
             UltiminerContext database) {
             
             this.logger = logger;
-            this.index = index;
+            this.levelIndex = levelIndex;
+            this.resourceIndex = resourceIndex;
             this.database = database;
         }
 
-        public async Task<int> AwardExperience(string userId, int experienceAwarded) {
+        public async Task<NewExperience> AwardExperience(string userId, int awardedExp) {
 
-            logger.LogTrace("Awarding: {experience} experience to user: {userId}...", userId, experienceAwarded);
+            logger.LogTrace("Awarding: {experience} experience to user: {userId}...", userId, awardedExp);
             
             //Get the existing user experience if it exists
             UserLevel? userExp = await database.UserLevel
@@ -42,21 +45,42 @@ namespace Services.Experience {
             }
 
             //Add the new xp :)
-            userExp.TotalExperience += experienceAwarded;
-            //TODO: Add level and level xp
+            userExp.TotalExperience += awardedExp;
+            
+            //While the users levelExp + awardedExp > nextLevelExp, increment their level
+            int levelExp = userExp.LevelExperience + awardedExp;
+            int nextLevelExp = levelIndex.Get(userExp.Level + 1);
+            while(levelExp >= nextLevelExp) {
+                
+                //Increment level
+                userExp.Level ++;
+                //Recalculate levelExp
+                levelExp = levelExp - nextLevelExp;
+                //Recalculate nextLevelExp
+                nextLevelExp = levelIndex.Get(userExp.Level + 1);
+
+                logger.LogTrace("User: {userId} has leveled up, they are now: {level}, with: {levelExp} to the next level", userId, userExp.Level, levelExp);
+            }
+            //Update the xp after applying level ups
+            userExp.LevelExperience = levelExp;
 
             //Save the new exp
             await database.SaveChangesAsync();
             logger.LogTrace("User: {userId} has a total of: {totalExperience} exp", userId, userExp.TotalExperience);
 
-            return userExp.TotalExperience;
+            return new(){
+                NewExp = awardedExp,
+                Level = userExp.Level,
+                Experience = userExp.LevelExperience,
+                NextLevelExperience = nextLevelExp
+            };
         }
 
         public int SumResourceExperience(List<ResourceStack> resources) {
 
             //Reduce resources to their experience values, and sum them
             return resources.Select(resource => {
-                return index.Get(resource.ResourceId) * resource.Count;
+                return resourceIndex.Get(resource.ResourceId) * resource.Count;
             }).Sum();
         }
     }

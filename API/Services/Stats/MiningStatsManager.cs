@@ -18,6 +18,22 @@ namespace Services.Stats {
             this.database = database;
         }
 
+        public async Task<bool> CanMine(string userId) {
+
+            logger.LogTrace("Determining if user: {userId}'s mining cooldown has elapsed...", userId);
+
+            MiningStats? stats = await database.MiningStats
+                .FirstOrDefaultAsync(stats => stats.UserId == userId);
+
+            //If the user has no stats, they've never mined, so they can mine now
+            if (stats == null) {
+                return true;
+            }
+
+            //If they do have stats, check their next mine is equal to, or after now
+            return stats.NextMine <= DateTime.UtcNow;
+        }
+
         public async Task Mine(string userId, DateTime nextMine) {
 
             logger.LogTrace("Recording: 1 mine action against user: {userId}...", userId);
@@ -25,7 +41,7 @@ namespace Services.Stats {
             MiningStats? stats = await database.MiningStats
                 .FirstOrDefaultAsync(stats => stats.UserId == userId);
 
-            DateTime lastMine = DateTime.Now;
+            DateTime lastMine = DateTime.UtcNow;
             if (stats == null) {
 
                 //If no existing stats, make new ones

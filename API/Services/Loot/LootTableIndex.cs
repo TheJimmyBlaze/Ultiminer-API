@@ -13,10 +13,13 @@ namespace Services.Loot {
         private readonly Random random;
         private readonly IDbContextFactory<UltiminerContext> databaseFactory;
 
+        //Node index stores the maximum quantity of resources a node drops, and the chance of each resource dropping
         private struct NodeIndex {
             public int Quantity {get; set;}
+            //Key: resource drop chance, Value: Resource Natural Id
             public IDictionary<double, string> Index {get; set;}
         }
+        //Key: Node Natural Id, key: Node Index
         private readonly Dictionary<string, NodeIndex> index = new();
 
         public LootTableIndex(ILogger<LootTableIndex> logger, 

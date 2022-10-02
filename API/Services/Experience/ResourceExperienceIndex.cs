@@ -1,6 +1,5 @@
 
 using Database;
-using Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Services.Experience {
@@ -10,6 +9,7 @@ namespace Services.Experience {
         private readonly ILogger logger;
         private readonly IDbContextFactory<UltiminerContext> databaseFactory;
 
+        //Key: Resource Natural Id, Value: Experience Reward
         private readonly Dictionary<string, int> index = new();
 
         public ResourceExperienceIndex(ILogger<ResourceExperienceIndex> logger,
