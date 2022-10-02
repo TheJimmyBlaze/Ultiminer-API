@@ -3,6 +3,7 @@ using Database;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Models.Mining;
+using Services.Resources;
 
 namespace Services.Users {
 
@@ -10,13 +11,16 @@ namespace Services.Users {
 
         private readonly ILogger logger;
 
+        private readonly ResourceExperienceIndex index;
+
         private readonly UltiminerContext database;
 
         public ExperienceManager(ILogger<ExperienceManager> logger,
+            ResourceExperienceIndex index,
             UltiminerContext database) {
             
             this.logger = logger;
-
+            this.index = index;
             this.database = database;
         }
 
@@ -49,11 +53,11 @@ namespace Services.Users {
             return userExp.TotalExperience;
         }
 
-        public static int SumResourceExperience(List<ResourceStack> resources) {
+        public int SumResourceExperience(List<ResourceStack> resources) {
 
             //Reduce resources to their experience values, and sum them
             return resources.Select(resource => {
-                return resource.ExperienceAwarded * resource.Count;
+                return index.Get(resource.ResourceId) * resource.Count;
             }).Sum();
         }
     }

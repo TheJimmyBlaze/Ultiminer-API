@@ -9,8 +9,6 @@ namespace Models.Mining {
         public string ResourceId {get; set;}
         [JsonPropertyName("display_name")]
         public string DisplayName {get; set;}
-        [JsonPropertyName("ExperienceAwarded")]
-        public int ExperienceAwarded {get; set;}
         [JsonPropertyName("count")]
         public int Count {get; set;}
     }

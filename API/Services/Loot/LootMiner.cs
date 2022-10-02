@@ -38,7 +38,7 @@ namespace Services.Loot {
             List<ResourceStack> addedResources = await resourceManager.AddResources(userId, newResources);  //This value is currently unused
 
             //Award the experience
-            int awardedExperience = ExperienceManager.SumResourceExperience(addedResources);
+            int awardedExperience = experienceManager.SumResourceExperience(addedResources);
             int totalExperience = await experienceManager.AwardExperience(userId, awardedExperience);
 
             //Get the current resource total
