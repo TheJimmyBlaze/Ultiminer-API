@@ -9,6 +9,7 @@ using Services.Loot;
 using Services.Resources;
 using Services.Users;
 using Services.Stats;
+using Services.Experience;
 using Database;
 
 var builder = WebApplication.CreateBuilder(args);

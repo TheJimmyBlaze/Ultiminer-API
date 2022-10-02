@@ -111,24 +111,6 @@ namespace Ultiminer_Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Experience",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TotalExperience = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Experience", x => x.UserId);
-                    table.ForeignKey(
-                        name: "FK_Experience_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MiningStats",
                 columns: table => new
                 {
@@ -142,6 +124,26 @@ namespace Ultiminer_Database.Migrations
                     table.PrimaryKey("PK_MiningStats", x => x.UserId);
                     table.ForeignKey(
                         name: "FK_MiningStats_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserLevel",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    TotalExperience = table.Column<int>(type: "int", nullable: false),
+                    LevelExperience = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserLevel", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_UserLevel_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
@@ -252,9 +254,6 @@ namespace Ultiminer_Database.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Experience");
-
-            migrationBuilder.DropTable(
                 name: "LootTableResources");
 
             migrationBuilder.DropTable(
@@ -262,6 +261,9 @@ namespace Ultiminer_Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "NodeLootTables");
+
+            migrationBuilder.DropTable(
+                name: "UserLevel");
 
             migrationBuilder.DropTable(
                 name: "UserResources");

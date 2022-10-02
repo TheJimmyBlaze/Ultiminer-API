@@ -1,5 +1,5 @@
 
-using Services.Users;
+using Services.Experience;
 using Services.Resources;
 using Models.Mining;
 using Services.Stats;
@@ -55,8 +55,8 @@ namespace Services.Loot {
                     TotalResources = totalResources
                 },
                 Exp = new(){
-                    NewExp = awardedExperience,
-                    TotalExp = totalExperience
+                    NewExp = awardedExperience
+                    //TODO: add experience, and next level experience here, once we have th values for them
                 },
                 NextMine = nextMine
             };

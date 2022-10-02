@@ -7,7 +7,11 @@ namespace Models.Mining {
 
         [JsonPropertyName("new_exp")]
         public int NewExp {get; set;}
-        [JsonPropertyName("total_exp")]
-        public int TotalExp {get; set;}
+        [JsonPropertyName("level")]
+        public int Level {get; set;}
+        [JsonPropertyName("experience")]
+        public int Experience {get; set;}
+        [JsonPropertyName("next_level_experience")]
+        public int NextLevelExperience {get; set;}
     }
 }

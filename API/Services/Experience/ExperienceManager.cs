@@ -3,9 +3,8 @@ using Database;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Models.Mining;
-using Services.Resources;
 
-namespace Services.Users {
+namespace Services.Experience {
 
     public class ExperienceManager {
 
@@ -29,22 +28,22 @@ namespace Services.Users {
             logger.LogTrace("Awarding: {experience} experience to user: {userId}...", userId, experienceAwarded);
             
             //Get the existing user experience if it exists
-            Experience? userExp = await database.Experience
+            UserLevel? userExp = await database.UserLevel
                 .FirstOrDefaultAsync(exp => exp.UserId == userId);
 
+
+            //If no experience exists for this user, create some
             if (userExp == null) {
 
-                //If no experience exists for this user, create some
                 userExp = new (){
                     UserId = userId,
-                    TotalExperience = experienceAwarded
                 };
-                database.Experience.Add(userExp);
-            } else {
-
-                //If a user already has exp, add some more :)
-                userExp.TotalExperience += experienceAwarded;
+                database.UserLevel.Add(userExp);
             }
+
+            //Add the new xp :)
+            userExp.TotalExperience += experienceAwarded;
+            //TODO: Add level and level xp
 
             //Save the new exp
             await database.SaveChangesAsync();

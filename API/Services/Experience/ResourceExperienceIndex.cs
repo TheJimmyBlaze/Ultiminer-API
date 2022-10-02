@@ -3,7 +3,7 @@ using Database;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Services.Resources {
+namespace Services.Experience {
 
     public class ResourceExperienceIndex {
 

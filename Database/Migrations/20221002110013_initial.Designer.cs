@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ultiminer_Database.Migrations
 {
     [DbContext(typeof(UltiminerContext))]
-    [Migration("20221001121945_initial")]
+    [Migration("20221002110013_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,19 +23,6 @@ namespace Ultiminer_Database.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Database.Models.Experience", b =>
-                {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("TotalExperience")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Experience");
-                });
 
             modelBuilder.Entity("Database.Models.LootTable", b =>
                 {
@@ -325,6 +312,25 @@ namespace Ultiminer_Database.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Database.Models.UserLevel", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LevelExperience")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalExperience")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserLevel");
+                });
+
             modelBuilder.Entity("Database.Models.UserResource", b =>
                 {
                     b.Property<string>("UserId")
@@ -341,17 +347,6 @@ namespace Ultiminer_Database.Migrations
                     b.HasIndex("ResourceId");
 
                     b.ToTable("UserResources");
-                });
-
-            modelBuilder.Entity("Database.Models.Experience", b =>
-                {
-                    b.HasOne("Database.Models.User", "User")
-                        .WithOne("Experience")
-                        .HasForeignKey("Database.Models.Experience", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Database.Models.LootTableResource", b =>
@@ -403,6 +398,17 @@ namespace Ultiminer_Database.Migrations
                     b.Navigation("Node");
                 });
 
+            modelBuilder.Entity("Database.Models.UserLevel", b =>
+                {
+                    b.HasOne("Database.Models.User", "User")
+                        .WithOne("Level")
+                        .HasForeignKey("Database.Models.UserLevel", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Database.Models.UserResource", b =>
                 {
                     b.HasOne("Database.Models.Resource", "Resource")
@@ -434,7 +440,7 @@ namespace Ultiminer_Database.Migrations
 
             modelBuilder.Entity("Database.Models.User", b =>
                 {
-                    b.Navigation("Experience")
+                    b.Navigation("Level")
                         .IsRequired();
 
                     b.Navigation("MiningStats")
