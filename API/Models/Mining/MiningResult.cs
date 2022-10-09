@@ -1,6 +1,7 @@
 
 using System.Text.Json.Serialization;
 using Models.Experience;
+using Models.Resources;
 
 namespace Models.Mining {
 

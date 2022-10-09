@@ -2,7 +2,7 @@
 using Database;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
-using Models.Mining;
+using Models.Resources;
 using Models.Experience;
 
 namespace Services.Experience {

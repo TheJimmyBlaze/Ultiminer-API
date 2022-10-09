@@ -2,8 +2,7 @@
 using Database;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
-using Models.Mining;
-using Services.Users;
+using Models.Resources;
 
 namespace Services.Resources {
 
@@ -38,7 +37,7 @@ namespace Services.Resources {
 
         public List<ResourceStack> CullUnknownResources(List<ResourceStack> resources){
 
-            logger.LogTrace("Culling unknown resource...");
+            logger.LogTrace("Culling unknown resources...");
             
             IEnumerable<string> stackResourceIds = resources.Select(resource => resource.ResourceId);
             IEnumerable<string> knownResourceIds = database.Resources

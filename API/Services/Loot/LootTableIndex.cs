@@ -3,7 +3,7 @@ using System.Diagnostics;
 using Database;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
-using Models.Mining;
+using Models.Resources;
 
 namespace Services.Loot {
 
