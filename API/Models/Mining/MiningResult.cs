@@ -1,5 +1,6 @@
 
 using System.Text.Json.Serialization;
+using Models.Experience;
 
 namespace Models.Mining {
 

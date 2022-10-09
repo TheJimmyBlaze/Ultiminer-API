@@ -1,12 +1,10 @@
 
 using System.Text.Json.Serialization;
 
-namespace Models.Mining {
+namespace Models.Experience {
 
-    public class NewExperience {
+    public class ExperienceTotal {
 
-        [JsonPropertyName("new_exp")]
-        public int NewExp {get; set;}
         [JsonPropertyName("level")]
         public int Level {get; set;}
         [JsonPropertyName("experience")]

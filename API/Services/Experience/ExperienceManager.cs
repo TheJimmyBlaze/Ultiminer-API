@@ -3,6 +3,7 @@ using Database;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Models.Mining;
+using Models.Experience;
 
 namespace Services.Experience {
 
@@ -24,6 +25,26 @@ namespace Services.Experience {
             this.levelIndex = levelIndex;
             this.resourceIndex = resourceIndex;
             this.database = database;
+        }
+
+        public async Task<ExperienceTotal> GetExperience(string userId) {
+
+            logger.LogTrace("Getting total experience for user: {userId}", userId);
+
+            //Get the existing user experience if it exists
+            UserLevel? userExp = await database.UserLevel
+                .FirstOrDefaultAsync(exp => exp.UserId == userId);
+
+            //Create the experience response
+            ExperienceTotal response = new();
+            if (userExp != null) {
+
+                response.Level = userExp.Level;
+                response.Experience = userExp.LevelExperience;
+                response.NextLevelExperience = levelIndex.Get(userExp.Level + 1);
+            }
+
+            return response;
         }
 
         public async Task<NewExperience> AwardExperience(string userId, int awardedExp) {
