@@ -14,11 +14,13 @@ namespace Database.Data.Resources {
             new(){
                 NaturalId = STONE,
                 DisplayName = "Stone",
+                ResourceTypeId = ResourceTypes.STONE,
                 ExperienceAwarded = 5,
             },
             new(){
                 NaturalId = FLINT,
                 DisplayName = "Flint",
+                ResourceTypeId = ResourceTypes.STONE,
                 ExperienceAwarded = 10,
             }
         };

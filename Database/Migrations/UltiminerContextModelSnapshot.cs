@@ -251,7 +251,13 @@ namespace Ultiminer_Database.Migrations
                     b.Property<int>("ExperienceAwarded")
                         .HasColumnType("int");
 
+                    b.Property<string>("ResourceTypeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("NaturalId");
+
+                    b.HasIndex("ResourceTypeId");
 
                     b.ToTable("Resources");
 
@@ -260,43 +266,74 @@ namespace Ultiminer_Database.Migrations
                         {
                             NaturalId = "Stone.Simple",
                             DisplayName = "Stone",
-                            ExperienceAwarded = 5
+                            ExperienceAwarded = 5,
+                            ResourceTypeId = "Stone"
                         },
                         new
                         {
                             NaturalId = "Stone.Flint",
                             DisplayName = "Flint",
-                            ExperienceAwarded = 10
+                            ExperienceAwarded = 10,
+                            ResourceTypeId = "Stone"
                         },
                         new
                         {
                             NaturalId = "Treasure.Rod.Wooden",
                             DisplayName = "Wooden Rod",
-                            ExperienceAwarded = 20
+                            ExperienceAwarded = 20,
+                            ResourceTypeId = "Treasure"
                         },
                         new
                         {
                             NaturalId = "Treasure.Binding.Linen",
                             DisplayName = "Linen Scrap",
-                            ExperienceAwarded = 25
+                            ExperienceAwarded = 25,
+                            ResourceTypeId = "Treasure"
                         },
                         new
                         {
                             NaturalId = "Treasure.Cube.Brass",
                             DisplayName = "Brass Cube",
-                            ExperienceAwarded = 75
+                            ExperienceAwarded = 75,
+                            ResourceTypeId = "Treasure"
                         },
                         new
                         {
                             NaturalId = "Gem.Raw.Quartz",
                             DisplayName = "Quartz",
-                            ExperienceAwarded = 50
+                            ExperienceAwarded = 50,
+                            ResourceTypeId = "Gem"
                         },
                         new
                         {
                             NaturalId = "Gem.Raw.Opal",
                             DisplayName = "Opal",
-                            ExperienceAwarded = 65
+                            ExperienceAwarded = 65,
+                            ResourceTypeId = "Gem"
+                        });
+                });
+
+            modelBuilder.Entity("Database.Models.ResourceType", b =>
+                {
+                    b.Property<string>("NaturalId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("NaturalId");
+
+                    b.ToTable("ResourceType");
+
+                    b.HasData(
+                        new
+                        {
+                            NaturalId = "Stone"
+                        },
+                        new
+                        {
+                            NaturalId = "Gem"
+                        },
+                        new
+                        {
+                            NaturalId = "Treasure"
                         });
                 });
 
@@ -394,6 +431,17 @@ namespace Ultiminer_Database.Migrations
                     b.Navigation("LootTable");
 
                     b.Navigation("Node");
+                });
+
+            modelBuilder.Entity("Database.Models.Resource", b =>
+                {
+                    b.HasOne("Database.Models.ResourceType", "ResourceType")
+                        .WithMany()
+                        .HasForeignKey("ResourceTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ResourceType");
                 });
 
             modelBuilder.Entity("Database.Models.UserLevel", b =>

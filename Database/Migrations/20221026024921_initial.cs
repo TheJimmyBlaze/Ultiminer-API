@@ -35,16 +35,14 @@ namespace Ultiminer_Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Resources",
+                name: "ResourceType",
                 columns: table => new
                 {
-                    NaturalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExperienceAwarded = table.Column<int>(type: "int", nullable: false)
+                    NaturalId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Resources", x => x.NaturalId);
+                    table.PrimaryKey("PK_ResourceType", x => x.NaturalId);
                 });
 
             migrationBuilder.CreateTable(
@@ -86,26 +84,21 @@ namespace Ultiminer_Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LootTableResources",
+                name: "Resources",
                 columns: table => new
                 {
-                    LootTableId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    ResourceId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Rarity = table.Column<int>(type: "int", nullable: false)
+                    NaturalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ResourceTypeId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ExperienceAwarded = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LootTableResources", x => new { x.LootTableId, x.ResourceId });
+                    table.PrimaryKey("PK_Resources", x => x.NaturalId);
                     table.ForeignKey(
-                        name: "FK_LootTableResources_LootTables_LootTableId",
-                        column: x => x.LootTableId,
-                        principalTable: "LootTables",
-                        principalColumn: "NaturalId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_LootTableResources_Resources_ResourceId",
-                        column: x => x.ResourceId,
-                        principalTable: "Resources",
+                        name: "FK_Resources_ResourceType_ResourceTypeId",
+                        column: x => x.ResourceTypeId,
+                        principalTable: "ResourceType",
                         principalColumn: "NaturalId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -147,6 +140,31 @@ namespace Ultiminer_Database.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LootTableResources",
+                columns: table => new
+                {
+                    LootTableId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ResourceId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Rarity = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LootTableResources", x => new { x.LootTableId, x.ResourceId });
+                    table.ForeignKey(
+                        name: "FK_LootTableResources_LootTables_LootTableId",
+                        column: x => x.LootTableId,
+                        principalTable: "LootTables",
+                        principalColumn: "NaturalId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LootTableResources_Resources_ResourceId",
+                        column: x => x.ResourceId,
+                        principalTable: "Resources",
+                        principalColumn: "NaturalId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -195,17 +213,40 @@ namespace Ultiminer_Database.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Resources",
-                columns: new[] { "NaturalId", "DisplayName", "ExperienceAwarded" },
+                table: "ResourceType",
+                column: "NaturalId",
+                values: new object[]
+                {
+                    "Gem",
+                    "Stone",
+                    "Treasure"
+                });
+
+            migrationBuilder.InsertData(
+                table: "NodeLootTables",
+                columns: new[] { "LootTableId", "NodeId", "MaxRarity", "MinRarity", "TableRarity" },
                 values: new object[,]
                 {
-                    { "Gem.Raw.Opal", "Opal", 65 },
-                    { "Gem.Raw.Quartz", "Quartz", 50 },
-                    { "Stone.Flint", "Flint", 10 },
-                    { "Stone.Simple", "Stone", 5 },
-                    { "Treasure.Binding.Linen", "Linen Scrap", 25 },
-                    { "Treasure.Cube.Brass", "Brass Cube", 75 },
-                    { "Treasure.Rod.Wooden", "Wooden Rod", 20 }
+                    { "Table.Gems", "Node.Flint", 15, 0, 200 },
+                    { "Table.Stone", "Node.Flint", 15, 0, 10 },
+                    { "Table.Treasure", "Node.Flint", 50, 0, 100 },
+                    { "Table.Gems", "Node.Stone", 10, 0, 200 },
+                    { "Table.Stone", "Node.Stone", 10, 0, 10 },
+                    { "Table.Treasure", "Node.Stone", 15, 0, 100 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Resources",
+                columns: new[] { "NaturalId", "DisplayName", "ExperienceAwarded", "ResourceTypeId" },
+                values: new object[,]
+                {
+                    { "Gem.Raw.Opal", "Opal", 65, "Gem" },
+                    { "Gem.Raw.Quartz", "Quartz", 50, "Gem" },
+                    { "Stone.Flint", "Flint", 10, "Stone" },
+                    { "Stone.Simple", "Stone", 5, "Stone" },
+                    { "Treasure.Binding.Linen", "Linen Scrap", 25, "Treasure" },
+                    { "Treasure.Cube.Brass", "Brass Cube", 75, "Treasure" },
+                    { "Treasure.Rod.Wooden", "Wooden Rod", 20, "Treasure" }
                 });
 
             migrationBuilder.InsertData(
@@ -222,19 +263,6 @@ namespace Ultiminer_Database.Migrations
                     { "Table.Treasure", "Treasure.Rod.Wooden", 10 }
                 });
 
-            migrationBuilder.InsertData(
-                table: "NodeLootTables",
-                columns: new[] { "LootTableId", "NodeId", "MaxRarity", "MinRarity", "TableRarity" },
-                values: new object[,]
-                {
-                    { "Table.Gems", "Node.Flint", 15, 0, 200 },
-                    { "Table.Stone", "Node.Flint", 15, 0, 10 },
-                    { "Table.Treasure", "Node.Flint", 50, 0, 100 },
-                    { "Table.Gems", "Node.Stone", 10, 0, 200 },
-                    { "Table.Stone", "Node.Stone", 10, 0, 10 },
-                    { "Table.Treasure", "Node.Stone", 15, 0, 100 }
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_LootTableResources_ResourceId",
                 table: "LootTableResources",
@@ -244,6 +272,11 @@ namespace Ultiminer_Database.Migrations
                 name: "IX_NodeLootTables_LootTableId",
                 table: "NodeLootTables",
                 column: "LootTableId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Resources_ResourceTypeId",
+                table: "Resources",
+                column: "ResourceTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserResources_ResourceId",
@@ -279,6 +312,9 @@ namespace Ultiminer_Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "ResourceType");
         }
     }
 }

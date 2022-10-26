@@ -15,16 +15,19 @@ namespace Database.Data.Resources {
             new(){
                 NaturalId = ROD_WOODEN,
                 DisplayName = "Wooden Rod",
+                ResourceTypeId = ResourceTypes.TREASURE,
                 ExperienceAwarded = 20
             },
             new(){
                 NaturalId = BINDING_LINEN,
                 DisplayName = "Linen Scrap",
+                ResourceTypeId = ResourceTypes.TREASURE,
                 ExperienceAwarded = 25
             },
             new(){
                 NaturalId = CUBE_BRASS,
                 DisplayName = "Brass Cube",
+                ResourceTypeId = ResourceTypes.TREASURE,
                 ExperienceAwarded = 75
             }
         };

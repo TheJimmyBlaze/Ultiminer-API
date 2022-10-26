@@ -14,11 +14,13 @@ namespace Database.Data.Resources {
             new(){
                 NaturalId = RAW_QUARTZ,
                 DisplayName = "Quartz",
+                ResourceTypeId = ResourceTypes.GEM,
                 ExperienceAwarded = 50
             },
             new(){
                 NaturalId = RAW_OPAL,
                 DisplayName = "Opal",
+                ResourceTypeId = ResourceTypes.GEM,
                 ExperienceAwarded = 65
             }
         };

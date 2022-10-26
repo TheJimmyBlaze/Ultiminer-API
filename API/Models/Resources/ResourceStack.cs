@@ -9,6 +9,8 @@ namespace Models.Resources {
         public string ResourceId {get; set;}
         [JsonPropertyName("display_name")]
         public string DisplayName {get; set;}
+        [JsonPropertyName("type")]
+        public string Type {get; set;}
         [JsonPropertyName("count")]
         public int Count {get; set;}
     }

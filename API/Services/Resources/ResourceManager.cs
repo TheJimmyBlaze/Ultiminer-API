@@ -9,7 +9,6 @@ namespace Services.Resources {
     public class ResourceManager {
 
         private readonly ILogger logger;
-
         private readonly UltiminerContext database;
 
         public ResourceManager(ILogger<ResourceManager> logger,
@@ -25,8 +24,11 @@ namespace Services.Resources {
 
             List<ResourceStack> resources = await database.UserResources
                 .Where(resource => resource.UserId == userId)
+                .Include(resource => resource.Resource)
                 .Select(resource => new ResourceStack(){
                     ResourceId = resource.ResourceId,
+                    DisplayName = resource.Resource.DisplayName,
+                    Type = resource.Resource.ResourceTypeId,
                     Count = resource.Count
                 })
                 .ToListAsync();

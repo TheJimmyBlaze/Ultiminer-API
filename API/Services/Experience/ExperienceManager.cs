@@ -4,6 +4,7 @@ using Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Models.Resources;
 using Models.Experience;
+using Services.Resources;
 
 namespace Services.Experience {
 
@@ -12,13 +13,13 @@ namespace Services.Experience {
         private readonly ILogger logger;
 
         private readonly LevelExperienceIndex levelIndex;
-        private readonly ResourceExperienceIndex resourceIndex;
+        private readonly ResourceIndex resourceIndex;
 
         private readonly UltiminerContext database;
 
         public ExperienceManager(ILogger<ExperienceManager> logger,
             LevelExperienceIndex levelIndex,
-            ResourceExperienceIndex resourceIndex,
+            ResourceIndex resourceIndex,
             UltiminerContext database) {
             
             this.logger = logger;
@@ -101,7 +102,8 @@ namespace Services.Experience {
 
             //Reduce resources to their experience values, and sum them
             return resources.Select(resource => {
-                return resourceIndex.Get(resource.ResourceId) * resource.Count;
+                int resourceExp = resourceIndex.Get(resource.ResourceId).ExperienceAwarded;
+                return  resourceExp * resource.Count;
             }).Sum();
         }
     }

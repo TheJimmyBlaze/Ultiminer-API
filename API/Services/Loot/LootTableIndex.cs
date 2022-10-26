@@ -4,6 +4,7 @@ using Database;
 using Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Models.Resources;
+using Services.Resources;
 
 namespace Services.Loot {
 
@@ -11,6 +12,7 @@ namespace Services.Loot {
 
         private readonly ILogger<LootTableIndex> logger;
         private readonly Random random;
+        private readonly ResourceIndex resourceIndex;
         private readonly IDbContextFactory<UltiminerContext> databaseFactory;
 
         //Node index stores the maximum quantity of resources a node drops, and the chance of each resource dropping
@@ -24,10 +26,12 @@ namespace Services.Loot {
 
         public LootTableIndex(ILogger<LootTableIndex> logger, 
             Random random,
+            ResourceIndex resourceIndex,
             IDbContextFactory<UltiminerContext> databaseFactory) {
 
             this.logger = logger;
             this.random = random;
+            this.resourceIndex = resourceIndex;
             this.databaseFactory = databaseFactory;
 
             BuildIndex();
@@ -56,9 +60,16 @@ namespace Services.Loot {
                 }
 
                 //Convert the dictionary to a list of Resource Stacks
-                List<ResourceStack> resources = rawLoot.Select(raw => new ResourceStack(){
-                    ResourceId = raw.Key,
-                    Count = raw.Value
+                List<ResourceStack> resources = rawLoot.Select(raw => {
+
+                    Resource indexed = resourceIndex.Get(raw.Key);
+
+                    return new ResourceStack(){
+                        ResourceId = raw.Key,
+                        DisplayName = indexed.DisplayName,
+                        Type = indexed.ResourceTypeId,
+                        Count = raw.Value
+                    };
                 }).ToList();
 
                 logger.LogTrace("Generated: {lootCount} bits of loot", resources.Count);

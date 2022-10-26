@@ -14,6 +14,7 @@ namespace Database {
         public DbSet<MiningStats> MiningStats {get; set;}
 
         public DbSet<Node> Nodes {get; set;}
+        public DbSet<ResourceType> ResourceType {get; set;}
         public DbSet<Resource> Resources {get; set;}
         public DbSet<UserLevel> UserLevel {get; set;}
         public DbSet<UserResource> UserResources {get; set;}
@@ -26,6 +27,9 @@ namespace Database {
 
             //Nodes
             new Nodes(),
+
+            //Resource Types
+            new ResourceTypes(),
 
             //Resources
             new Stones(),
