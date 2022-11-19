@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Authentication;
 using Services.Nodes;
 using Models.Nodes;
-using Models.Mining;
 
 namespace Controllers.Nodes {
 
@@ -47,7 +46,7 @@ namespace Controllers.Nodes {
         }
 
         [HttpPost("SelectedNode")]
-        public async Task<IResult> SetSelectedNode([FromBody] ResourceNode node) {
+        public async Task<IResult> SetSelectedNode([FromBody] SelectNode node) {
 
             IIdentity? token = HttpContext.User.Identity;
             string userId = auth.GetUserFromToken(token);

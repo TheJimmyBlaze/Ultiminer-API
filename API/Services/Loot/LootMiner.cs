@@ -2,11 +2,10 @@
 using Services.Experience;
 using Services.Nodes;
 using Services.Resources;
+using Services.Stats;
 using Models.Mining;
 using Models.Resources;
 using Models.Experience;
-using Database.Models;
-using Services.Stats;
 using Exceptions;
 
 namespace Services.Loot {
@@ -18,6 +17,7 @@ namespace Services.Loot {
         private readonly LootTableIndex lootIndex;
         private readonly ExperienceManager experienceManager;
         private readonly NodeIndex nodeIndex;
+        private readonly NodeManager nodeManager;
         private readonly ResourceManager resourceManager;
         private readonly MiningStatsManager miningStats;
 
@@ -25,6 +25,7 @@ namespace Services.Loot {
             LootTableIndex lootIndex,
             ExperienceManager experienceManager,
             NodeIndex nodeIndex,
+            NodeManager nodeManager,
             ResourceManager resourceManager,
             MiningStatsManager miningStats) {
                 
@@ -33,30 +34,22 @@ namespace Services.Loot {
             this.lootIndex = lootIndex;
             this.experienceManager = experienceManager;
             this.nodeIndex = nodeIndex;
+            this.nodeManager = nodeManager;
             this.resourceManager = resourceManager;
             this.miningStats = miningStats;
         }
 
-        public async Task<MiningResult> Mine(string userId, string nodeId) {
+        public async Task<MiningResult> Mine(string userId) {
 
-            logger.LogTrace("User: {userId} is trying to mine Node: {nodeId}...", userId, nodeId);
+            logger.LogTrace("User: {userId} is attempting to mine...", userId);
 
             //Check if they can mine, if they can't return 'resource exhausted' error code
             if (! await miningStats.CanMine(userId)) {
                 throw new TooManyRequestsException($"User: {userId} next mine time has not elapsed");
             }
 
-            //Verify the nodeId resolves to a node
-            Node? node = nodeIndex.Get(nodeId);
-            if (node == null) {
-                throw new ArgumentException($"Node: {nodeId} does not exist");
-            }
-
-            //Check if the players level is greater than or equal to the required node level
-            ExperienceTotal userExperience = await experienceManager.GetExperience(userId);
-            if (userExperience.Level < node.LevelRequired) {
-                throw new UnauthorizedAccessException($"User: {userId} is below the required level ({node.LevelRequired}) to mine {nodeId}");
-            }
+            //Get the selected node
+            string nodeId = nodeManager.GetSelectedNode(userId);
 
             //Generate and add some new resources
             List<ResourceStack> newResources = lootIndex.GenerateLoot(nodeId);
