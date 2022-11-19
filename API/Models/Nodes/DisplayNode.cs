@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace Models.Nodes {
 
-    public class UserNode {
+    public class DisplayNode {
 
         [JsonPropertyName("node_id")]
         public string NodeId {get; set;}

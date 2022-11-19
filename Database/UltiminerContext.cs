@@ -18,6 +18,7 @@ namespace Database {
         public DbSet<Resource> Resources {get; set;}
         public DbSet<UserLevel> UserLevel {get; set;}
         public DbSet<UserResource> UserResources {get; set;}
+        public DbSet<UserNode> UserNodes {get; set;}
         
         public DbSet<LootTable> LootTables {get; set;}
         public DbSet<LootTableResource> LootTableResources {get; set;}

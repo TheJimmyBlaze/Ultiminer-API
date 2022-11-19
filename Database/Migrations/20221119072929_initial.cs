@@ -145,6 +145,30 @@ namespace Ultiminer_Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserNodes",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SelectedNodeId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NodeNaturalId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserNodes", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_UserNodes_Nodes_NodeNaturalId",
+                        column: x => x.NodeNaturalId,
+                        principalTable: "Nodes",
+                        principalColumn: "NaturalId");
+                    table.ForeignKey(
+                        name: "FK_UserNodes_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LootTableResources",
                 columns: table => new
                 {
@@ -280,6 +304,11 @@ namespace Ultiminer_Database.Migrations
                 column: "ResourceTypeId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserNodes_NodeNaturalId",
+                table: "UserNodes",
+                column: "NodeNaturalId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserResources_ResourceId",
                 table: "UserResources",
                 column: "ResourceId");
@@ -298,6 +327,9 @@ namespace Ultiminer_Database.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserLevel");
+
+            migrationBuilder.DropTable(
+                name: "UserNodes");
 
             migrationBuilder.DropTable(
                 name: "UserResources");

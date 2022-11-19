@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Services.Authentication;
 using Services.Nodes;
 using Models.Nodes;
+using Models.Mining;
 
 namespace Controllers.Nodes {
 
@@ -23,6 +24,54 @@ namespace Controllers.Nodes {
 
             this.auth = auth;
             this.nodes = nodes;
+        }
+
+        [HttpGet("SelectedNode")]
+        public IResult GetSelectedNode() {
+
+            IIdentity? token = HttpContext.User.Identity;
+            string userId = auth.GetUserFromToken(token);
+            logger.LogDebug("User: {userId} requests their selected node...", userId);
+
+            try {
+
+                //Get selected node for user
+                string selectedNode = nodes.GetSelectedNode(userId);
+                return Results.Ok(selectedNode);
+
+            } catch (Exception ex) {
+
+                logger.LogDebug("Node error: {error}, {stackTrace}", ex.Message, ex.StackTrace);
+                return Results.BadRequest($"Something went wrong trying to get the selected node for user: {userId}");
+            }
+        }
+
+        [HttpPost("SelectedNode")]
+        public async Task<IResult> SetSelectedNode([FromBody] ResourceNode node) {
+
+            IIdentity? token = HttpContext.User.Identity;
+            string userId = auth.GetUserFromToken(token);
+            logger.LogDebug("User: {userId} attempts to set their selected node to: {nodeId}", userId, node.NodeId);
+
+            try {
+
+                //Set the selected node for the user
+                await nodes.SelectNode(userId, node.NodeId);
+                return Results.Ok();
+
+            } catch(ArgumentException ex) {
+
+                logger.LogDebug("Node error: {error}, {stackTrace}", ex.Message, ex.StackTrace);
+                return Results.NotFound($"{node.NodeId} is not a valid Resource Node");
+            } catch(UnauthorizedAccessException ex) {
+                
+                logger.LogDebug("Node error: {error}, {stackTrace}", ex.Message, ex.StackTrace);
+                return Results.BadRequest($"User is below the level required to selected {node.NodeId}");
+            } catch (Exception ex) {
+
+                logger.LogDebug("Node error: {error}, {stackTrace}", ex.Message, ex.StackTrace);
+                return Results.BadRequest($"Something went wrong setting selected node: {node.NodeId} for user: {userId}");
+            }
         }
 
         [HttpGet("UnlockedNodes")]

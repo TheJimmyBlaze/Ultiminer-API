@@ -6,8 +6,8 @@ namespace Models.Nodes {
     public class UnlockedNodes {
 
         [JsonPropertyName("unlocked_nodes")]
-        public List<UserNode> Unlocked {get; set;}
+        public List<DisplayNode> Unlocked {get; set;}
         [JsonPropertyName("next_unlock")]
-        public UserNode NextUnlock {get; set;}
+        public DisplayNode NextUnlock {get; set;}
     }
 }

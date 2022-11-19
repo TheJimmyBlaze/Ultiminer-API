@@ -9,6 +9,7 @@ namespace Database.Models {
         public string UserId {get; set;}
 
         public UserLevel Level {get; set;}
+        public UserNode Node {get; set;}
         public List<UserResource> Resources {get; set;}
 
         public MiningStats MiningStats {get; set;}

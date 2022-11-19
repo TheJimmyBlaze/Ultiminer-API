@@ -371,6 +371,25 @@ namespace Ultiminer_Database.Migrations
                     b.ToTable("UserLevel");
                 });
 
+            modelBuilder.Entity("Database.Models.UserNode", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("NodeNaturalId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SelectedNodeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("NodeNaturalId");
+
+                    b.ToTable("UserNodes");
+                });
+
             modelBuilder.Entity("Database.Models.UserResource", b =>
                 {
                     b.Property<string>("UserId")
@@ -460,6 +479,23 @@ namespace Ultiminer_Database.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Database.Models.UserNode", b =>
+                {
+                    b.HasOne("Database.Models.Node", "Node")
+                        .WithMany()
+                        .HasForeignKey("NodeNaturalId");
+
+                    b.HasOne("Database.Models.User", "User")
+                        .WithOne("Node")
+                        .HasForeignKey("Database.Models.UserNode", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Node");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Database.Models.UserResource", b =>
                 {
                     b.HasOne("Database.Models.Resource", "Resource")
@@ -495,6 +531,9 @@ namespace Ultiminer_Database.Migrations
                         .IsRequired();
 
                     b.Navigation("MiningStats")
+                        .IsRequired();
+
+                    b.Navigation("Node")
                         .IsRequired();
 
                     b.Navigation("Resources");
