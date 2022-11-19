@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ultiminer_Database.Migrations
 {
     [DbContext(typeof(UltiminerContext))]
-    [Migration("20221119072929_initial")]
+    [Migration("20221119111831_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -378,16 +378,13 @@ namespace Ultiminer_Database.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("NodeNaturalId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("SelectedNodeId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("NodeNaturalId");
+                    b.HasIndex("SelectedNodeId");
 
                     b.ToTable("UserNodes");
                 });
@@ -483,9 +480,11 @@ namespace Ultiminer_Database.Migrations
 
             modelBuilder.Entity("Database.Models.UserNode", b =>
                 {
-                    b.HasOne("Database.Models.Node", "Node")
+                    b.HasOne("Database.Models.Node", "SelectedNode")
                         .WithMany()
-                        .HasForeignKey("NodeNaturalId");
+                        .HasForeignKey("SelectedNodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Database.Models.User", "User")
                         .WithOne("Node")
@@ -493,7 +492,7 @@ namespace Ultiminer_Database.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Node");
+                    b.Navigation("SelectedNode");
 
                     b.Navigation("User");
                 });

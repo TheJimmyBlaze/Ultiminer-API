@@ -51,7 +51,7 @@ namespace Services.Nodes {
         
         public async Task SelectNode(string userId, string nodeId) {
 
-            logger.LogTrace("Settings selected node to: {nodeId} for user: {userId}", nodeId, userId);
+            logger.LogTrace("Setting selected node to: {nodeId} for user: {userId}", nodeId, userId);
 
             //Verify the nodeId resolves to a node
             Node? node = nodeIndex.Get(nodeId);
@@ -67,10 +67,13 @@ namespace Services.Nodes {
 
             UserNode? userNode = database.UserNodes.FirstOrDefault(userNode => userNode.UserId == userId);
             if (userNode == null) {
+
                 userNode = new() {
                     UserId = userId,
                     SelectedNodeId = nodeId
                 };
+                await database.UserNodes.AddAsync(userNode);
+                
             } else {
                 userNode.SelectedNodeId = nodeId;
             }

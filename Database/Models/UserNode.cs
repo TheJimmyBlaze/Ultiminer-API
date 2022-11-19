@@ -10,6 +10,6 @@ namespace Database.Models {
         public string SelectedNodeId {get; set;}
 
         public User User {get; set;}
-        public Node Node {get; set;}
+        public Node SelectedNode {get; set;}
     }
 }

@@ -149,17 +149,17 @@ namespace Ultiminer_Database.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SelectedNodeId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NodeNaturalId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    SelectedNodeId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserNodes", x => x.UserId);
                     table.ForeignKey(
-                        name: "FK_UserNodes_Nodes_NodeNaturalId",
-                        column: x => x.NodeNaturalId,
+                        name: "FK_UserNodes_Nodes_SelectedNodeId",
+                        column: x => x.SelectedNodeId,
                         principalTable: "Nodes",
-                        principalColumn: "NaturalId");
+                        principalColumn: "NaturalId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserNodes_Users_UserId",
                         column: x => x.UserId,
@@ -304,9 +304,9 @@ namespace Ultiminer_Database.Migrations
                 column: "ResourceTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserNodes_NodeNaturalId",
+                name: "IX_UserNodes_SelectedNodeId",
                 table: "UserNodes",
-                column: "NodeNaturalId");
+                column: "SelectedNodeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserResources_ResourceId",
