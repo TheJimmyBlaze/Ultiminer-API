@@ -143,6 +143,9 @@ namespace Ultiminer_Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LevelRequired")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -155,12 +158,14 @@ namespace Ultiminer_Database.Migrations
                         {
                             NaturalId = "Node.Stone",
                             DisplayName = "Stone",
+                            LevelRequired = 0,
                             Quantity = 4
                         },
                         new
                         {
                             NaturalId = "Node.Flint",
                             DisplayName = "Flint",
+                            LevelRequired = 3,
                             Quantity = 6
                         });
                 });

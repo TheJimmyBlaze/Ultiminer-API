@@ -22,8 +22,13 @@ namespace Services.Resources {
             index = BuildIndex();
         }
 
-        public Resource Get(string resourceId) {
-            return index[resourceId];
+        public Resource? Get(string resourceId) {
+            
+            if (index.ContainsKey(resourceId)) {
+                return index[resourceId];
+            }
+
+            return null;
         }
 
         private Dictionary<string, Resource> BuildIndex() {

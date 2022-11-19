@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ultiminer_Database.Migrations
 {
     [DbContext(typeof(UltiminerContext))]
-    [Migration("20221026024921_initial")]
+    [Migration("20221117182405_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -145,6 +145,9 @@ namespace Ultiminer_Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LevelRequired")
+                        .HasColumnType("int");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -157,12 +160,14 @@ namespace Ultiminer_Database.Migrations
                         {
                             NaturalId = "Node.Stone",
                             DisplayName = "Stone",
+                            LevelRequired = 0,
                             Quantity = 4
                         },
                         new
                         {
                             NaturalId = "Node.Flint",
                             DisplayName = "Flint",
+                            LevelRequired = 3,
                             Quantity = 6
                         });
                 });

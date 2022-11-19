@@ -62,7 +62,7 @@ namespace Services.Loot {
                 //Convert the dictionary to a list of Resource Stacks
                 List<ResourceStack> resources = rawLoot.Select(raw => {
 
-                    Resource indexed = resourceIndex.Get(raw.Key);
+                    Resource indexed = resourceIndex.Get(raw.Key)!;
 
                     return new ResourceStack(){
                         ResourceId = raw.Key,

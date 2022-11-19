@@ -27,6 +27,7 @@ namespace Ultiminer_Database.Migrations
                 {
                     NaturalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LevelRequired = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -205,11 +206,11 @@ namespace Ultiminer_Database.Migrations
 
             migrationBuilder.InsertData(
                 table: "Nodes",
-                columns: new[] { "NaturalId", "DisplayName", "Quantity" },
+                columns: new[] { "NaturalId", "DisplayName", "LevelRequired", "Quantity" },
                 values: new object[,]
                 {
-                    { "Node.Flint", "Flint", 6 },
-                    { "Node.Stone", "Stone", 4 }
+                    { "Node.Flint", "Flint", 3, 6 },
+                    { "Node.Stone", "Stone", 0, 4 }
                 });
 
             migrationBuilder.InsertData(

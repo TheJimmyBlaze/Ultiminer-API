@@ -14,11 +14,13 @@ namespace Database.Data {
             new(){
                 NaturalId = STONE,
                 DisplayName = "Stone",
+                LevelRequired = 0,
                 Quantity = 4
             },
             new(){
                 NaturalId = FLINT,
                 DisplayName = "Flint",
+                LevelRequired = 3,
                 Quantity = 6
             }
         };

@@ -46,6 +46,10 @@ namespace Controller.Mining {
 
                 logger.LogDebug("Mining error: {error}, {stackTrace}", ex.Message, ex.StackTrace);
                 return Results.NotFound($"{node.NodeId} is not a valid Resource Node");
+            } catch(UnauthorizedAccessException ex) {
+                
+                logger.LogDebug("Mining error: {error}, {stackTrace}", ex.Message, ex.StackTrace);
+                return Results.BadRequest($"User is below the level required to mine {node.NodeId}");
             } catch(Exception ex) {
 
                 logger.LogDebug("Mining error: {error}, {stackTrace}", ex.Message, ex.StackTrace);

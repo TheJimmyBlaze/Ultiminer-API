@@ -40,6 +40,7 @@ namespace Controllers.Resources {
                     TotalResources = total
                 };
                 return Results.Ok(response);
+                
             } catch (Exception ex) {
 
                 logger.LogDebug("Resource error: {error}, {stackTrace}", ex.Message, ex.StackTrace);

@@ -102,7 +102,7 @@ namespace Services.Experience {
 
             //Reduce resources to their experience values, and sum them
             return resources.Select(resource => {
-                int resourceExp = resourceIndex.Get(resource.ResourceId).ExperienceAwarded;
+                int resourceExp = resourceIndex.Get(resource.ResourceId)!.ExperienceAwarded;
                 return  resourceExp * resource.Count;
             }).Sum();
         }
