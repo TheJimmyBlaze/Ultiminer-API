@@ -5,7 +5,7 @@ using Services.Authentication;
 using Services.Nodes;
 using Models.Nodes;
 
-namespace Controllers.Nodes {
+namespace Controllers {
 
     [ApiController]
     public class NodeController : ControllerBase {

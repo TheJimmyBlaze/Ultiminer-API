@@ -5,7 +5,7 @@ using Services.Authentication;
 using Services.Experience;
 using Models.Experience;
 
-namespace Controllers.Experience {
+namespace Controllers {
 
     [ApiController]
     public class ExperienceController : ControllerBase {

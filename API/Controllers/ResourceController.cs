@@ -5,7 +5,7 @@ using Services.Authentication;
 using Services.Resources;
 using Models.Resources;
 
-namespace Controllers.Resources {
+namespace Controllers {
 
     [ApiController]
     public class ResourceController : ControllerBase {

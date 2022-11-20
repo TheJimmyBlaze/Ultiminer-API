@@ -38,9 +38,9 @@ namespace Services.Nodes {
                 .ToList();
         }
 
-        public Node GetNextForLevel(int level) {
+        public Node? GetNextForLevel(int level) {
             return index.Values
-                .First(node => node.LevelRequired > level);
+                .FirstOrDefault(node => node.LevelRequired > level);
         }
 
         private Dictionary<string, Node> BuildIndex() {

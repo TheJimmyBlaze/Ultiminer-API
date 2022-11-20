@@ -91,7 +91,7 @@ namespace Services.Nodes {
 
             //Get all unlocked nodes and the next node to be unlocked, from the index
             List<Node> unlockedNodes = nodeIndex.GetForLevel(level);
-            Node nextUnlock = nodeIndex.GetNextForLevel(level);
+            Node? nextUnlock = nodeIndex.GetNextForLevel(level);
 
             //Convert the unlockedNodes to displayNode
             List<DisplayNode> unlockedDisplayNodes = unlockedNodes    
@@ -101,11 +101,15 @@ namespace Services.Nodes {
                     LevelRequired = node.LevelRequired
                 }).ToList();
 
-            DisplayNode nextUserUnlock = new() {
-                NodeId = nextUnlock.NaturalId,
-                DisplayName = nextUnlock.DisplayName,
-                LevelRequired = nextUnlock.LevelRequired
-            };
+            
+            DisplayNode? nextUserUnlock = null;
+            if (nextUnlock != null) {
+                    nextUserUnlock = new() {
+                    NodeId = nextUnlock.NaturalId,
+                    DisplayName = nextUnlock.DisplayName,
+                    LevelRequired = nextUnlock.LevelRequired
+                };
+            }
 
             //Create the model and return
             UnlockedNodes unlocked = new() {

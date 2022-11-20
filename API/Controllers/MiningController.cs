@@ -6,7 +6,7 @@ using Services.Loot;
 using Models.Mining;
 using Exceptions;
 
-namespace Controller.Mining {
+namespace Controller {
 
     [ApiController]
     public class MiningController : ControllerBase {

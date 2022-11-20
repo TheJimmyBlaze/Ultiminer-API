@@ -4,7 +4,7 @@ using Services.Authentication;
 using Models.Authentication;
 using Services.Users;
 
-namespace Controllers.Authentication {
+namespace Controllers {
 
     [ApiController]
     public class AuthController : ControllerBase {
