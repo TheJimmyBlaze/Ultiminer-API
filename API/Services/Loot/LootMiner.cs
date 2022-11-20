@@ -6,6 +6,7 @@ using Services.Stats;
 using Models.Mining;
 using Models.Resources;
 using Models.Experience;
+using Models.Nodes;
 using Exceptions;
 
 namespace Services.Loot {
@@ -49,10 +50,10 @@ namespace Services.Loot {
             }
 
             //Get the selected node
-            string nodeId = nodeManager.GetSelectedNode(userId);
+            DisplayNode selectedNode = nodeManager.GetSelectedNode(userId);
 
             //Generate and add some new resources
-            List<ResourceStack> newResources = lootIndex.GenerateLoot(nodeId);
+            List<ResourceStack> newResources = lootIndex.GenerateLoot(selectedNode.NodeId);
             List<ResourceStack> addedResources = await resourceManager.AddResources(userId, newResources);  //This value is currently unused
 
             //Award the experience

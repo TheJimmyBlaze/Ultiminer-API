@@ -35,7 +35,7 @@ namespace Controllers {
             try {
 
                 //Get selected node for user
-                string selectedNode = nodes.GetSelectedNode(userId);
+                DisplayNode selectedNode = nodes.GetSelectedNode(userId);
                 return Results.Ok(selectedNode);
 
             } catch (Exception ex) {

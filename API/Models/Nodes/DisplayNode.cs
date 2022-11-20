@@ -9,7 +9,7 @@ namespace Models.Nodes {
         public string NodeId {get; set;}
         [JsonPropertyName("display_name")]
         public string DisplayName {get; set;}
-        [JsonPropertyName("LevelRequired")]
+        [JsonPropertyName("level_required")]
         public int LevelRequired {get; set;}
     }
 }

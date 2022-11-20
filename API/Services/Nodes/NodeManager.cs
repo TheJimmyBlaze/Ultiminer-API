@@ -31,22 +31,29 @@ namespace Services.Nodes {
             this.database = database;
         }
 
-        public string GetSelectedNode(string userId) {
+        public DisplayNode GetSelectedNode(string userId) {
 
             logger.LogTrace("Getting selected node for user: {userId}", userId);
 
             //If a user hasn't selected a node yet, give them stone
             //Don't set this default in the DB unless the user has actually selected it
             const string DEFAULT_NODE = Data.Nodes.STONE;
-            string selectedNode = DEFAULT_NODE;
+            Node selectedNode = nodeIndex.Get(DEFAULT_NODE)!;
 
             UserNode? userNode = database.UserNodes.FirstOrDefault(userNode => userNode.UserId == userId);
             if (userNode != null) {
                 //If the userNode is not null, set it to be the selected node
-                selectedNode = userNode.SelectedNodeId;
+                selectedNode = nodeIndex.Get(userNode.SelectedNodeId)!;
             }
 
-            return selectedNode;
+            //Convert selected node to a display node
+            DisplayNode displayNode = new() {
+                NodeId = selectedNode.NaturalId,
+                DisplayName = selectedNode.DisplayName,
+                LevelRequired = selectedNode.LevelRequired
+            };
+
+            return displayNode;
         }
         
         public async Task SelectNode(string userId, string nodeId) {
