@@ -234,7 +234,7 @@ namespace Ultiminer_Database.Migrations
                 values: new object[,]
                 {
                     { "Node.Flint", "Flint", 3, 6 },
-                    { "Node.Stone", "Stone", 0, 4 }
+                    { "Node.Stone", "Stone", 0, 6 }
                 });
 
             migrationBuilder.InsertData(
@@ -267,9 +267,9 @@ namespace Ultiminer_Database.Migrations
                 {
                     { "Gem.Raw.Opal", "Opal", 65, "Gem" },
                     { "Gem.Raw.Quartz", "Quartz", 50, "Gem" },
-                    { "Stone.Flint", "Flint", 10, "Stone" },
-                    { "Stone.Simple", "Stone", 5, "Stone" },
-                    { "Treasure.Binding.Linen", "Linen Scrap", 25, "Treasure" },
+                    { "Stone.Flint", "Flint", 25, "Stone" },
+                    { "Stone.Simple", "Stone", 15, "Stone" },
+                    { "Treasure.Binding.Linen", "Linen Scrap", 30, "Treasure" },
                     { "Treasure.Cube.Brass", "Brass Cube", 75, "Treasure" },
                     { "Treasure.Rod.Wooden", "Wooden Rod", 20, "Treasure" }
                 });

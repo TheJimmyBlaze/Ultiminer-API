@@ -15,7 +15,7 @@ namespace Database.Data {
                 NaturalId = STONE,
                 DisplayName = "Stone",
                 LevelRequired = 0,
-                Quantity = 4
+                Quantity = 6
             },
             new(){
                 NaturalId = FLINT,

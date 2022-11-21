@@ -22,7 +22,7 @@ namespace Database.Data.Resources {
                 NaturalId = BINDING_LINEN,
                 DisplayName = "Linen Scrap",
                 ResourceTypeId = ResourceTypes.TREASURE,
-                ExperienceAwarded = 25
+                ExperienceAwarded = 30
             },
             new(){
                 NaturalId = CUBE_BRASS,

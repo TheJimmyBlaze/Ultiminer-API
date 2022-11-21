@@ -159,7 +159,7 @@ namespace Ultiminer_Database.Migrations
                             NaturalId = "Node.Stone",
                             DisplayName = "Stone",
                             LevelRequired = 0,
-                            Quantity = 4
+                            Quantity = 6
                         },
                         new
                         {
@@ -271,14 +271,14 @@ namespace Ultiminer_Database.Migrations
                         {
                             NaturalId = "Stone.Simple",
                             DisplayName = "Stone",
-                            ExperienceAwarded = 5,
+                            ExperienceAwarded = 15,
                             ResourceTypeId = "Stone"
                         },
                         new
                         {
                             NaturalId = "Stone.Flint",
                             DisplayName = "Flint",
-                            ExperienceAwarded = 10,
+                            ExperienceAwarded = 25,
                             ResourceTypeId = "Stone"
                         },
                         new
@@ -292,7 +292,7 @@ namespace Ultiminer_Database.Migrations
                         {
                             NaturalId = "Treasure.Binding.Linen",
                             DisplayName = "Linen Scrap",
-                            ExperienceAwarded = 25,
+                            ExperienceAwarded = 30,
                             ResourceTypeId = "Treasure"
                         },
                         new
