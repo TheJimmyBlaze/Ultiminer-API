@@ -233,6 +233,7 @@ namespace Ultiminer_Database.Migrations
                 columns: new[] { "NaturalId", "DisplayName", "LevelRequired", "Quantity" },
                 values: new object[,]
                 {
+                    { "Node.Coal", "Coal", 5, 8 },
                     { "Node.Flint", "Flint", 3, 6 },
                     { "Node.Stone", "Stone", 0, 6 }
                 });

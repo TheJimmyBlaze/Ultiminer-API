@@ -167,6 +167,13 @@ namespace Ultiminer_Database.Migrations
                             DisplayName = "Flint",
                             LevelRequired = 3,
                             Quantity = 6
+                        },
+                        new
+                        {
+                            NaturalId = "Node.Coal",
+                            DisplayName = "Coal",
+                            LevelRequired = 5,
+                            Quantity = 8
                         });
                 });
 

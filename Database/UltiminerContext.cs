@@ -47,7 +47,8 @@ namespace Database {
 
             //Node Loot tables
             new StoneNodeTable(),
-            new FlintNodeTable()
+            new FlintNodeTable(),
+            new CoalLootTable()
         };
 
         public UltiminerContext(DbContextOptions<UltiminerContext> options) : base(options){}

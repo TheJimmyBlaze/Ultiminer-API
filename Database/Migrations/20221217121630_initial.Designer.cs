@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ultiminer_Database.Migrations
 {
     [DbContext(typeof(UltiminerContext))]
-    [Migration("20221121090136_initial")]
+    [Migration("20221217121630_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -169,6 +169,13 @@ namespace Ultiminer_Database.Migrations
                             DisplayName = "Flint",
                             LevelRequired = 3,
                             Quantity = 6
+                        },
+                        new
+                        {
+                            NaturalId = "Node.Coal",
+                            DisplayName = "Coal",
+                            LevelRequired = 5,
+                            Quantity = 8
                         });
                 });
 
