@@ -9,6 +9,7 @@ namespace Database.Data.Resources {
         //All Stone Ids have the "Stone" prefix
         public const string STONE = "Stone.Simple";
         public const string FLINT = "Stone.Flint";
+        public const string SOAP = "Stone.Soap";
 
         private readonly List<Resource> stones = new(){
             new(){
@@ -22,6 +23,12 @@ namespace Database.Data.Resources {
                 DisplayName = "Flint",
                 ResourceTypeId = ResourceTypes.STONE,
                 ExperienceAwarded = 25,
+            },
+            new(){
+                NaturalId = SOAP,
+                DisplayName = "Soap Stone",
+                ResourceTypeId = ResourceTypes.STONE,
+                ExperienceAwarded = 35
             }
         };
 

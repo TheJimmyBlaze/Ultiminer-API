@@ -7,12 +7,16 @@ namespace Database.Data.Resources {
     public class ResourceTypes : IDataGenerator {
 
         public const string STONE = "Stone";
+        public const string ORE = "Ore";
         public const string GEM = "Gem";
         public const string TREASURE = "Treasure";
 
         private readonly List<ResourceType> types = new(){
             new(){
                 NaturalId=STONE
+            },
+            new(){
+                NaturalId=ORE
             },
             new(){
                 NaturalId=GEM

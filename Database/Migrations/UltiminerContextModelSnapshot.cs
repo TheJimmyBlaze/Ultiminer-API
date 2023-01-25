@@ -43,6 +43,11 @@ namespace Ultiminer_Database.Migrations
                         },
                         new
                         {
+                            NaturalId = "Table.Ore",
+                            DisplayName = "Ore"
+                        },
+                        new
+                        {
                             NaturalId = "Table.Treasure",
                             DisplayName = "Treasure"
                         },
@@ -85,6 +90,30 @@ namespace Ultiminer_Database.Migrations
                         },
                         new
                         {
+                            LootTableId = "Table.Stone",
+                            ResourceId = "Stone.Soap",
+                            Rarity = 20
+                        },
+                        new
+                        {
+                            LootTableId = "Table.Ore",
+                            ResourceId = "Ore.Coal",
+                            Rarity = 10
+                        },
+                        new
+                        {
+                            LootTableId = "Table.Ore",
+                            ResourceId = "Ore.Tin",
+                            Rarity = 15
+                        },
+                        new
+                        {
+                            LootTableId = "Table.Ore",
+                            ResourceId = "Ore.Copper",
+                            Rarity = 20
+                        },
+                        new
+                        {
                             LootTableId = "Table.Treasure",
                             ResourceId = "Treasure.Rod.Wooden",
                             Rarity = 10
@@ -94,6 +123,12 @@ namespace Ultiminer_Database.Migrations
                             LootTableId = "Table.Treasure",
                             ResourceId = "Treasure.Binding.Linen",
                             Rarity = 15
+                        },
+                        new
+                        {
+                            LootTableId = "Table.Treasure",
+                            ResourceId = "Treasure.Tablet.Stone",
+                            Rarity = 25
                         },
                         new
                         {
@@ -112,6 +147,18 @@ namespace Ultiminer_Database.Migrations
                             LootTableId = "Table.Gems",
                             ResourceId = "Gem.Raw.Opal",
                             Rarity = 15
+                        },
+                        new
+                        {
+                            LootTableId = "Table.Gems",
+                            ResourceId = "Gem.Raw.Sapphire",
+                            Rarity = 20
+                        },
+                        new
+                        {
+                            LootTableId = "Table.Gems",
+                            ResourceId = "Gem.Raw.Emerald",
+                            Rarity = 25
                         });
                 });
 
@@ -174,6 +221,20 @@ namespace Ultiminer_Database.Migrations
                             DisplayName = "Coal",
                             LevelRequired = 5,
                             Quantity = 8
+                        },
+                        new
+                        {
+                            NaturalId = "Node.Tin",
+                            DisplayName = "Tin",
+                            LevelRequired = 8,
+                            Quantity = 5
+                        },
+                        new
+                        {
+                            NaturalId = "Node.Copper",
+                            DisplayName = "Copper",
+                            LevelRequired = 10,
+                            Quantity = 5
                         });
                 });
 
@@ -248,6 +309,102 @@ namespace Ultiminer_Database.Migrations
                             MaxRarity = 15,
                             MinRarity = 0,
                             TableRarity = 200
+                        },
+                        new
+                        {
+                            NodeId = "Node.Coal",
+                            LootTableId = "Table.Stone",
+                            MaxRarity = 10,
+                            MinRarity = 0,
+                            TableRarity = 10
+                        },
+                        new
+                        {
+                            NodeId = "Node.Coal",
+                            LootTableId = "Table.Ore",
+                            MaxRarity = 10,
+                            MinRarity = 0,
+                            TableRarity = 50
+                        },
+                        new
+                        {
+                            NodeId = "Node.Coal",
+                            LootTableId = "Table.Treasure",
+                            MaxRarity = 50,
+                            MinRarity = 0,
+                            TableRarity = 200
+                        },
+                        new
+                        {
+                            NodeId = "Node.Coal",
+                            LootTableId = "Table.Gems",
+                            MaxRarity = 20,
+                            MinRarity = 0,
+                            TableRarity = 300
+                        },
+                        new
+                        {
+                            NodeId = "Node.Tin",
+                            LootTableId = "Table.Stone",
+                            MaxRarity = 20,
+                            MinRarity = 0,
+                            TableRarity = 10
+                        },
+                        new
+                        {
+                            NodeId = "Node.Tin",
+                            LootTableId = "Table.Ore",
+                            MaxRarity = 15,
+                            MinRarity = 15,
+                            TableRarity = 50
+                        },
+                        new
+                        {
+                            NodeId = "Node.Tin",
+                            LootTableId = "Table.Treasure",
+                            MaxRarity = 50,
+                            MinRarity = 0,
+                            TableRarity = 200
+                        },
+                        new
+                        {
+                            NodeId = "Node.Tin",
+                            LootTableId = "Table.Gems",
+                            MaxRarity = 25,
+                            MinRarity = 0,
+                            TableRarity = 300
+                        },
+                        new
+                        {
+                            NodeId = "Node.Copper",
+                            LootTableId = "Table.Stone",
+                            MaxRarity = 20,
+                            MinRarity = 0,
+                            TableRarity = 10
+                        },
+                        new
+                        {
+                            NodeId = "Node.Copper",
+                            LootTableId = "Table.Ore",
+                            MaxRarity = 20,
+                            MinRarity = 20,
+                            TableRarity = 50
+                        },
+                        new
+                        {
+                            NodeId = "Node.Copper",
+                            LootTableId = "Table.Treasure",
+                            MaxRarity = 50,
+                            MinRarity = 0,
+                            TableRarity = 200
+                        },
+                        new
+                        {
+                            NodeId = "Node.Copper",
+                            LootTableId = "Table.Gems",
+                            MaxRarity = 25,
+                            MinRarity = 0,
+                            TableRarity = 300
                         });
                 });
 
@@ -290,6 +447,34 @@ namespace Ultiminer_Database.Migrations
                         },
                         new
                         {
+                            NaturalId = "Stone.Soap",
+                            DisplayName = "Soap Stone",
+                            ExperienceAwarded = 35,
+                            ResourceTypeId = "Stone"
+                        },
+                        new
+                        {
+                            NaturalId = "Ore.Coal",
+                            DisplayName = "Coal",
+                            ExperienceAwarded = 32,
+                            ResourceTypeId = "Ore"
+                        },
+                        new
+                        {
+                            NaturalId = "Ore.Tin",
+                            DisplayName = "Tin",
+                            ExperienceAwarded = 48,
+                            ResourceTypeId = "Ore"
+                        },
+                        new
+                        {
+                            NaturalId = "Ore.Copper",
+                            DisplayName = "Copper",
+                            ExperienceAwarded = 64,
+                            ResourceTypeId = "Ore"
+                        },
+                        new
+                        {
                             NaturalId = "Treasure.Rod.Wooden",
                             DisplayName = "Wooden Rod",
                             ExperienceAwarded = 20,
@@ -299,7 +484,14 @@ namespace Ultiminer_Database.Migrations
                         {
                             NaturalId = "Treasure.Binding.Linen",
                             DisplayName = "Linen Scrap",
-                            ExperienceAwarded = 30,
+                            ExperienceAwarded = 20,
+                            ResourceTypeId = "Treasure"
+                        },
+                        new
+                        {
+                            NaturalId = "Treasure.Tablet.Stone",
+                            DisplayName = "Stone Tablet",
+                            ExperienceAwarded = 40,
                             ResourceTypeId = "Treasure"
                         },
                         new
@@ -322,6 +514,20 @@ namespace Ultiminer_Database.Migrations
                             DisplayName = "Opal",
                             ExperienceAwarded = 65,
                             ResourceTypeId = "Gem"
+                        },
+                        new
+                        {
+                            NaturalId = "Gem.Raw.Sapphire",
+                            DisplayName = "Sapphire",
+                            ExperienceAwarded = 80,
+                            ResourceTypeId = "Gem"
+                        },
+                        new
+                        {
+                            NaturalId = "Gem.Raw.Emerald",
+                            DisplayName = "Emerald",
+                            ExperienceAwarded = 95,
+                            ResourceTypeId = "Gem"
                         });
                 });
 
@@ -338,6 +544,10 @@ namespace Ultiminer_Database.Migrations
                         new
                         {
                             NaturalId = "Stone"
+                        },
+                        new
+                        {
+                            NaturalId = "Ore"
                         },
                         new
                         {

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Data.NodeLootTables {
 
-    public class CoalNodeTable : IDataGenerator {
+    public class TinNodeTable : IDataGenerator {
 
-        private const string NODE_ID = Nodes.COAL;
+        private const string NODE_ID = Nodes.TIN;
 
         private readonly List<NodeLootTable> tables = new(){
             new(){
@@ -14,14 +14,14 @@ namespace Database.Data.NodeLootTables {
                 LootTableId = LootTables.STONE,
                 TableRarity = 10,
                 MinRarity = 0,
-                MaxRarity = 10
+                MaxRarity = 20
             },
             new(){
                 NodeId = NODE_ID,
                 LootTableId = LootTables.ORE,
                 TableRarity = 50,
-                MinRarity = 0,
-                MaxRarity = 10
+                MinRarity = 15,
+                MaxRarity = 15
             },
             new(){
                 NodeId = NODE_ID,
@@ -35,7 +35,7 @@ namespace Database.Data.NodeLootTables {
                 LootTableId = LootTables.GEMS,
                 TableRarity = 300,
                 MinRarity = 0,
-                MaxRarity = 20
+                MaxRarity = 25
             }
         };
 

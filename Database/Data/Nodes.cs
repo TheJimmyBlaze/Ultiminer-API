@@ -31,6 +31,18 @@ namespace Database.Data {
                 DisplayName = "Coal",
                 LevelRequired = 5,
                 Quantity = 8
+            },
+            new(){
+                NaturalId = TIN,
+                DisplayName = "Tin",
+                LevelRequired = 8,
+                Quantity = 5
+            },
+            new(){
+                NaturalId = COPPER,
+                DisplayName = "Copper",
+                LevelRequired = 10,
+                Quantity = 5
             }
         };
 

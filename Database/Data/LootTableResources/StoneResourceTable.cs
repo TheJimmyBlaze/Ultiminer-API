@@ -20,6 +20,11 @@ namespace Database.Data.LootTableResources {
                 LootTableId = LOOT_TABLE_ID,
                 ResourceId = Stones.FLINT,
                 Rarity = 15
+            },
+            new(){
+                LootTableId = LOOT_TABLE_ID,
+                ResourceId = Stones.SOAP,
+                Rarity = 20
             }
         };
 

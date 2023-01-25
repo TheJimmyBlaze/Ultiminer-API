@@ -5,35 +5,30 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Data.LootTableResources {
 
-    public class GemResourceTable : IDataGenerator {
+    public class OreResourceTable : IDataGenerator {
 
-        private const string LOOT_TABLE_ID = LootTables.GEMS; 
+        private const string LOOT_TABLE_ID = LootTables.ORE;
 
         //Loot chance decreases as rarity increases
         private readonly List<LootTableResource> loot = new(){
             new(){
                 LootTableId = LOOT_TABLE_ID,
-                ResourceId = Gems.RAW_QUARTZ,
+                ResourceId = Ores.ORE_COAL,
                 Rarity = 10
             },
             new(){
                 LootTableId = LOOT_TABLE_ID,
-                ResourceId = Gems.RAW_OPAL,
+                ResourceId = Ores.ORE_TIN,
                 Rarity = 15
             },
             new(){
                 LootTableId = LOOT_TABLE_ID,
-                ResourceId = Gems.RAW_SAPPHIRE,
+                ResourceId = Ores.ORE_COPPER,
                 Rarity = 20
-            },
-            new(){
-                LootTableId = LOOT_TABLE_ID,
-                ResourceId = Gems.RAW_EMERALD,
-                Rarity = 25
             }
         };
 
-        public void Generate(ModelBuilder builder){
+        public void Generate(ModelBuilder builder) {
             builder.Entity<LootTableResource>().HasData(loot);
         }
     }

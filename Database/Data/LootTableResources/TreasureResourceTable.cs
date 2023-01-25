@@ -23,6 +23,11 @@ namespace Database.Data.LootTableResources {
             },
             new(){
                 LootTableId = LOOT_TABLE_ID,
+                ResourceId = Treasures.TABLET_STONE,
+                Rarity = 25
+            },
+            new(){
+                LootTableId = LOOT_TABLE_ID,
                 ResourceId = Treasures.CUBE_BRASS,
                 Rarity = 50
             }

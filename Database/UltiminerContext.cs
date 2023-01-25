@@ -34,6 +34,7 @@ namespace Database {
 
             //Resources
             new Stones(),
+            new Ores(),
             new Treasures(),
             new Gems(),
 
@@ -42,13 +43,16 @@ namespace Database {
 
             //Loot Table Resources
             new StoneResourceTable(),
+            new OreResourceTable(),
             new TreasureResourceTable(),
             new GemResourceTable(),
 
             //Node Loot tables
             new StoneNodeTable(),
             new FlintNodeTable(),
-            new CoalLootTable()
+            new CoalNodeTable(),
+            new TinNodeTable(),
+            new CopperNodeTable()
         };
 
         public UltiminerContext(DbContextOptions<UltiminerContext> options) : base(options){}

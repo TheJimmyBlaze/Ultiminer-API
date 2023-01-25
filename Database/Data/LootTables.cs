@@ -8,6 +8,7 @@ namespace Database.Data {
 
         //All Loot Table Ids have the "Table" prefix
         public const string STONE = "Table.Stone";
+        public const string ORE = "Table.Ore";
         public const string TREASURE = "Table.Treasure";
         public const string GEMS = "Table.Gems";
 
@@ -15,6 +16,10 @@ namespace Database.Data {
             new(){
                 NaturalId = STONE,
                 DisplayName = "Stone"
+            },
+            new(){
+                NaturalId = ORE,
+                DisplayName = "Ore"
             },
             new(){
                 NaturalId = TREASURE,

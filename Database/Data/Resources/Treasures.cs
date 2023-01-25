@@ -9,6 +9,7 @@ namespace Database.Data.Resources {
         //All Treasure Ids have the 'Treasure" prefix
         public const string ROD_WOODEN = "Treasure.Rod.Wooden";
         public const string BINDING_LINEN = "Treasure.Binding.Linen";
+        public const string TABLET_STONE = "Treasure.Tablet.Stone";
         public const string CUBE_BRASS = "Treasure.Cube.Brass";
 
         private readonly List<Resource> treasures = new(){
@@ -22,7 +23,13 @@ namespace Database.Data.Resources {
                 NaturalId = BINDING_LINEN,
                 DisplayName = "Linen Scrap",
                 ResourceTypeId = ResourceTypes.TREASURE,
-                ExperienceAwarded = 30
+                ExperienceAwarded = 20
+            },
+            new(){
+                NaturalId = TABLET_STONE,
+                DisplayName = "Stone Tablet",
+                ResourceTypeId = ResourceTypes.TREASURE,
+                ExperienceAwarded = 40
             },
             new(){
                 NaturalId = CUBE_BRASS,

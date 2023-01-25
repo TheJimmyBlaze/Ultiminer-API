@@ -224,6 +224,7 @@ namespace Ultiminer_Database.Migrations
                 values: new object[,]
                 {
                     { "Table.Gems", "Gem" },
+                    { "Table.Ore", "Ore" },
                     { "Table.Stone", "Stone" },
                     { "Table.Treasure", "Treasure" }
                 });
@@ -234,8 +235,10 @@ namespace Ultiminer_Database.Migrations
                 values: new object[,]
                 {
                     { "Node.Coal", "Coal", 5, 8 },
+                    { "Node.Copper", "Copper", 10, 5 },
                     { "Node.Flint", "Flint", 3, 6 },
-                    { "Node.Stone", "Stone", 0, 6 }
+                    { "Node.Stone", "Stone", 0, 6 },
+                    { "Node.Tin", "Tin", 8, 5 }
                 });
 
             migrationBuilder.InsertData(
@@ -244,6 +247,7 @@ namespace Ultiminer_Database.Migrations
                 values: new object[]
                 {
                     "Gem",
+                    "Ore",
                     "Stone",
                     "Treasure"
                 });
@@ -253,12 +257,24 @@ namespace Ultiminer_Database.Migrations
                 columns: new[] { "LootTableId", "NodeId", "MaxRarity", "MinRarity", "TableRarity" },
                 values: new object[,]
                 {
+                    { "Table.Gems", "Node.Coal", 20, 0, 300 },
+                    { "Table.Ore", "Node.Coal", 10, 0, 50 },
+                    { "Table.Stone", "Node.Coal", 10, 0, 10 },
+                    { "Table.Treasure", "Node.Coal", 50, 0, 200 },
+                    { "Table.Gems", "Node.Copper", 25, 0, 300 },
+                    { "Table.Ore", "Node.Copper", 20, 20, 50 },
+                    { "Table.Stone", "Node.Copper", 20, 0, 10 },
+                    { "Table.Treasure", "Node.Copper", 50, 0, 200 },
                     { "Table.Gems", "Node.Flint", 15, 0, 200 },
                     { "Table.Stone", "Node.Flint", 15, 0, 10 },
                     { "Table.Treasure", "Node.Flint", 50, 0, 100 },
                     { "Table.Gems", "Node.Stone", 10, 0, 200 },
                     { "Table.Stone", "Node.Stone", 10, 0, 10 },
-                    { "Table.Treasure", "Node.Stone", 15, 0, 100 }
+                    { "Table.Treasure", "Node.Stone", 15, 0, 100 },
+                    { "Table.Gems", "Node.Tin", 25, 0, 300 },
+                    { "Table.Ore", "Node.Tin", 15, 15, 50 },
+                    { "Table.Stone", "Node.Tin", 20, 0, 10 },
+                    { "Table.Treasure", "Node.Tin", 50, 0, 200 }
                 });
 
             migrationBuilder.InsertData(
@@ -266,13 +282,20 @@ namespace Ultiminer_Database.Migrations
                 columns: new[] { "NaturalId", "DisplayName", "ExperienceAwarded", "ResourceTypeId" },
                 values: new object[,]
                 {
+                    { "Gem.Raw.Emerald", "Emerald", 95, "Gem" },
                     { "Gem.Raw.Opal", "Opal", 65, "Gem" },
                     { "Gem.Raw.Quartz", "Quartz", 50, "Gem" },
+                    { "Gem.Raw.Sapphire", "Sapphire", 80, "Gem" },
+                    { "Ore.Coal", "Coal", 32, "Ore" },
+                    { "Ore.Copper", "Copper", 64, "Ore" },
+                    { "Ore.Tin", "Tin", 48, "Ore" },
                     { "Stone.Flint", "Flint", 25, "Stone" },
                     { "Stone.Simple", "Stone", 15, "Stone" },
-                    { "Treasure.Binding.Linen", "Linen Scrap", 30, "Treasure" },
+                    { "Stone.Soap", "Soap Stone", 35, "Stone" },
+                    { "Treasure.Binding.Linen", "Linen Scrap", 20, "Treasure" },
                     { "Treasure.Cube.Brass", "Brass Cube", 75, "Treasure" },
-                    { "Treasure.Rod.Wooden", "Wooden Rod", 20, "Treasure" }
+                    { "Treasure.Rod.Wooden", "Wooden Rod", 20, "Treasure" },
+                    { "Treasure.Tablet.Stone", "Stone Tablet", 40, "Treasure" }
                 });
 
             migrationBuilder.InsertData(
@@ -280,13 +303,20 @@ namespace Ultiminer_Database.Migrations
                 columns: new[] { "LootTableId", "ResourceId", "Rarity" },
                 values: new object[,]
                 {
+                    { "Table.Gems", "Gem.Raw.Emerald", 25 },
                     { "Table.Gems", "Gem.Raw.Opal", 15 },
                     { "Table.Gems", "Gem.Raw.Quartz", 10 },
+                    { "Table.Gems", "Gem.Raw.Sapphire", 20 },
+                    { "Table.Ore", "Ore.Coal", 10 },
+                    { "Table.Ore", "Ore.Copper", 20 },
+                    { "Table.Ore", "Ore.Tin", 15 },
                     { "Table.Stone", "Stone.Flint", 15 },
                     { "Table.Stone", "Stone.Simple", 10 },
+                    { "Table.Stone", "Stone.Soap", 20 },
                     { "Table.Treasure", "Treasure.Binding.Linen", 15 },
                     { "Table.Treasure", "Treasure.Cube.Brass", 50 },
-                    { "Table.Treasure", "Treasure.Rod.Wooden", 10 }
+                    { "Table.Treasure", "Treasure.Rod.Wooden", 10 },
+                    { "Table.Treasure", "Treasure.Tablet.Stone", 25 }
                 });
 
             migrationBuilder.CreateIndex(
